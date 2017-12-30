@@ -8,13 +8,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
 public class GroupsPage extends AbstractPage {
-    private final String GROUP_NUMB = "12345678";
-    private final String ENTERING_YEAR = "2013";
-    private final String GRADUATING_YEAR = "2017";
-
-    private final String CHANGED_GROUP_NUMBER = "87654321";
-    private final String CHANGED_ENTERING_YEAR = "2015";
-    private final String CHANGED_GRADUATION_YEAR = "2019";
 
     public GroupsPage(WebDriver driver) {
         super(driver);
@@ -44,50 +37,53 @@ public class GroupsPage extends AbstractPage {
     @FindBy(xpath = "//a[@class='bootbox-close-button close']")
     private WebElement closeButton;
 
-    @FindBy(xpath = "//tr/td[5][not(contains(text(),'0'))]/../td[@class='']/div/a[contains(@href,'DeleteGroup')]")
     private WebElement removeGroupWithStudentsButton;
 
-    @FindBy(xpath = "//tr/td[text()='" + CHANGED_GROUP_NUMBER + "']" +
-            "/../td[@class='']/div/a[contains(@href,'DeleteGroup')]")
-    private WebElement removeGroupButton;
+    private WebElement removeEmptyGroupButton;
 
-    @FindBy(xpath = "//tr/td[text()='" +
-            GROUP_NUMB + "']" + "/../td[@class='']/div/a[contains(@href,'EditGroup')]")
     private WebElement editGroupButton;
 
     WebElement notification;
 
-    public GroupsPage addGroup() throws InterruptedException {
+    public GroupsPage addGroup(String groupNumber, String enteringYear, String graduatingYear)
+            throws InterruptedException {
         wait.waitForPageToLoad();
         waitForElementIsClickableAndClick(addGroupButton);
-        sendKeysIntoWebElement(groupNameField, GROUP_NUMB);
+        sendKeysIntoWebElement(groupNameField, groupNumber);
         Select enteringYearBox = new Select(listYearsOfGroupEntering);
         Select graduatingYearBox = new Select(listYearsOfGroupGraduation);
-        enteringYearBox.selectByVisibleText(ENTERING_YEAR);
-        graduatingYearBox.selectByVisibleText(GRADUATING_YEAR);
+        enteringYearBox.selectByVisibleText(enteringYear);
+        graduatingYearBox.selectByVisibleText(graduatingYear);
         waitForElementIsClickableAndClick(submitButton);
         notification = driver.findElement(new By.ByXPath("//section[@id='alertify-logs']/" +
                 "article[contains(text(),'сохранена')]"));
         wait.waitForElementIsVisible(notification);
+
         return GroupsPage.this;
     }
 
-    public GroupsPage changeGroupInformation() {
+    public GroupsPage changeGroupInformation(String groupNumb, String changedGroupNumber, String changedEnteringYear,
+                                             String changedGraduationYear) {
         wait.waitForPageToLoad();
+        editGroupButton = driver.findElement(By.xpath("//tr/td[text()='" +
+                groupNumb + "']" + "/../td[@class='']/div/a[contains(@href,'EditGroup')]"));
         waitForElementIsClickableAndClick(editGroupButton);
-        sendKeysIntoWebElement(groupNameField, CHANGED_GROUP_NUMBER);
+        sendKeysIntoWebElement(groupNameField, changedGroupNumber);
         Select enteringYearBox = new Select(listYearsOfGroupEntering);
         Select graduatingYearBox = new Select(listYearsOfGroupGraduation);
-        enteringYearBox.selectByVisibleText(CHANGED_ENTERING_YEAR);
-        graduatingYearBox.selectByVisibleText(CHANGED_GRADUATION_YEAR);
+        enteringYearBox.selectByVisibleText(changedEnteringYear);
+        graduatingYearBox.selectByVisibleText(changedGraduationYear);
         waitForElementIsClickableAndClick(submitButton);
+
         // checkListOfStuddents();
         return GroupsPage.this;
     }
 
-    public GroupsPage removeEmptyGroup() {
+    public GroupsPage removeEmptyGroup(String emptyGroupNumb) {
         wait.waitForPageToLoad();
-        waitForElementIsClickableAndClick(removeGroupButton);
+        removeEmptyGroupButton = driver.findElement(new By.ByXPath("//tr/td[text()='" + emptyGroupNumb
+                + "']/../td[@class='']/div/a[contains(@href,'DeleteGroup')]"));
+        waitForElementIsClickableAndClick(removeEmptyGroupButton);
         waitForElementIsClickableAndClick(confirmButton);
         notification = driver.findElement(new By.ByXPath("//section[@id='alertify-logs']/" +
                 "article[contains(text(),'удалена')]"));
@@ -95,8 +91,11 @@ public class GroupsPage extends AbstractPage {
         return GroupsPage.this;
     }
 
-    public GroupsPage removeGroupWithStudents() {
+    //rework
+    public GroupsPage removeGroupWithStudents(String groupWithStudentsNumber) {
         wait.waitForPageToLoad();
+        removeGroupWithStudentsButton = driver.findElement(By.xpath("//tr/td[5][not(contains(text(),'0'))]/../" +
+                "td[@class='']/div/a[contains(@href,'DeleteGroup')]"));
         waitForElementIsClickableAndClick(removeGroupWithStudentsButton);
         waitForElementIsClickableAndClick(confirmButton);
         notification = driver.findElement(new By.ByXPath("//section[@id='alertify-logs']/" +
@@ -105,7 +104,7 @@ public class GroupsPage extends AbstractPage {
         return GroupsPage.this;
     }
 
-    public void checkListOfStuddents() {
+    public void checkListOfStudents() {
         waitForElementIsClickableAndClick(listOFStudentsLink);
         driver.switchTo().activeElement();
         waitForElementIsClickableAndClickUsingJS(closeButton);

@@ -42,20 +42,41 @@ public class StudentsPage extends AbstractPage {
     @FindBy(xpath = "//*[@type='submit']")
     private WebElement submitButton;
 
-    public void changeStudent() {
+    @FindBy(xpath = "//*[@data-bb-handler='confirm']")
+    private WebElement confirmButton;
+
+    private WebElement deleteStudentButton;
+
+    WebElement notification;
+
+    public void initDynamicWebElements(String studentName) {
+        deleteStudentButton = driver.findElement(new By.ByXPath("//tr/td[contains(text(),'" + studentName + "')]" +
+                "/../td[@class='']/div/a[contains(@href,'DeleteStudent')]"));
+    }
+
+    public void changeStudent(String name, String changedName, String changedSurname, String changedPatronymic) {
         waitForElementIsClickableAndClick(editStudentButton);
         Select groups = new Select(listGroups);
-        String studentName = generateRandomString(6);
-        String studentSurname = generateRandomString(10);
-        String studentPatronymic = generateRandomString(12);
         groups.selectByIndex(0);
-        sendKeysIntoWebElement(nameField, studentName);
-        sendKeysIntoWebElement(surnameField, studentSurname);
-        sendKeysIntoWebElement(patronymicField, studentPatronymic);
+        sendKeysIntoWebElement(nameField, changedName);
+        sendKeysIntoWebElement(surnameField, changedSurname);
+        sendKeysIntoWebElement(patronymicField, changedPatronymic);
         waitForElementIsClickableAndClick(submitButton);
         WebElement notification = driver.findElement(new By.ByXPath("//section[@id='alertify-logs']/" +
                 "article[contains(text(),'Студент сохранен')]"));
         wait.waitForElementIsVisible(notification);
+    }
+
+    public StudentsPage removeStudent(String name) {
+        wait.waitForPageToLoad();
+        initDynamicWebElements(name);
+        waitForElementIsClickableAndClick(deleteStudentButton);
+        waitForElementIsClickableAndClick(confirmButton);
+        wait.waitForPageToLoad();
+        notification = driver.findElement(new By.ByXPath("//section[@id='alertify-logs']/" +
+                "article[contains(text(),'удален')]"));
+        wait.waitForElementIsVisible(notification);
+        return StudentsPage.this;
     }
 
 }

@@ -21,19 +21,11 @@ public class ProfessorsPage extends AbstractPage {
     @FindBy(xpath = "//a[@class='listButton']")
     private WebElement listButton;
 
-    @FindBy(xpath = "//tr/td[contains(text(),'" + PROFESSOR_NAME + "')]" +
-            "/../td[@class='']/div/a[contains(@href,'Profile')]")
-    private WebElement profileButton;
-
-    @FindBy(xpath = "//tr/td[contains(text(),'" + PROFESSOR_NAME + "')]" +
-            "/../td[@class='']/div/a[contains(@href,'EditProfessor')]")
     private WebElement editProfessorsButton;
 
     @FindBy(xpath = "//a[@class='deleteButton']")
     private WebElement deleteButton;
 
-    @FindBy(xpath = "//tr/td[contains(text(),'" + CHANGED_PROFESSORS_NAME + "')]" +
-            "/../td[@class='']/div/a[contains(@href,'DeleteLecturer')]")
     private WebElement deleteProfessorButton;
 
     @FindBy(xpath = "//a[@class='addButton btn btn-primary btn-sm']")
@@ -63,12 +55,6 @@ public class ProfessorsPage extends AbstractPage {
     @FindBy(id = "IsLecturerHasGraduateStudents")
     private WebElement lecturerHasGraduateStudentsBox;
 
-    @FindBy(xpath = "//td[@class = '" + PROFESSOR_NAME + " " + PROFESSOR_NAME + " " + PROFESSOR_NAME + "']")
-    private WebElement newProfessorName;
-
-    @FindBy(xpath = "//td[@class = '" + PROFESSOR_NAME + "']")
-    private WebElement newProfessorLogin;
-
     @FindBy(xpath = "//td[@class = 'TestUser']/../td[3]")
     private WebElement lastEnter;
 
@@ -93,10 +79,11 @@ public class ProfessorsPage extends AbstractPage {
     @FindBy(xpath = "//tr[@class='odd']/td[2]")
     private WebElement firstProfessorName;
 
-    private final String PROFESSOR_NAME = "TestUser1";
-    private final String CHANGED_PROFESSORS_NAME = "ChangedTestUser";
+    private WebElement professorForSearch;
+
     WebElement notification;
-    public ProfessorsPage checkActionButtons() {
+
+  /*  public ProfessorsPage checkActionButtons() {
         wait.waitForPageToLoad();
         SoftAssert sa = new SoftAssert();
         sa.assertTrue(statButton.isDisplayed(), "statButton is not displayed!");
@@ -107,17 +94,17 @@ public class ProfessorsPage extends AbstractPage {
         sa.assertTrue(addProfessorButton.isDisplayed(), "addProfessorButton is not displayed!");
         sa.assertAll();
         return ProfessorsPage.this;
-    }
+    }*/
 
-    public ProfessorsPage addProfessor() {
+    public ProfessorsPage addProfessor(String userName, String password, String surname, String name, String patronymic) {
         wait.waitForPageToLoad();
         waitForElementIsClickableAndClick(addProfessorButton);
-        sendKeysIntoWebElement(userNameField, PROFESSOR_NAME);
-        sendKeysIntoWebElement(passwordField, PROFESSOR_NAME);
-        sendKeysIntoWebElement(confirmPasswordField, PROFESSOR_NAME);
-        sendKeysIntoWebElement(surnameField, PROFESSOR_NAME);
-        sendKeysIntoWebElement(nameField, PROFESSOR_NAME);
-        sendKeysIntoWebElement(patronymicField, PROFESSOR_NAME);
+        sendKeysIntoWebElement(userNameField, userName);
+        sendKeysIntoWebElement(passwordField, password);
+        sendKeysIntoWebElement(confirmPasswordField, password);
+        sendKeysIntoWebElement(surnameField, surname);
+        sendKeysIntoWebElement(nameField, name);
+        sendKeysIntoWebElement(patronymicField, patronymic);
         waitForElementIsClickableAndClick(secretaryBox);
         waitForElementIsClickableAndClick(lecturerHasGraduateStudentsBox);
         waitForElementIsClickableAndClick(submitButton);
@@ -125,25 +112,27 @@ public class ProfessorsPage extends AbstractPage {
                 "article[contains(text(),'Преподаватель сохранен')]"));
         wait.waitForElementIsVisible(notification);
         return ProfessorsPage.this;
-
     }
 
-    public void checkProffCreation() {
+    /*public void checkProffCreation() {
         wait.waitForPageToLoad();
         wait.waitForElementIsVisible(newProfessorName);
         wait.waitForElementIsVisible(newProfessorLogin);
         Assert.assertEquals(lastEnter.getText(), ("-"));
         Assert.assertEquals(countOfSubjects.getText(), ("-"));
     }
+*/
 
     public void checkStatistic() {
         waitForElementIsClickableAndClick(statButton);
         waitForElementIsClickableAndClick(closeButton);
     }
 
-    public ProfessorsPage removeProfessor() {
+    public ProfessorsPage removeProfessor(String name) {
         wait.waitForPageToLoad();
         /*String proffName = firstProfessorName.getText();*/
+        deleteButton = driver.findElement(By.xpath("//tr/td[contains(text(),'" + name + "')]" +
+                "/../td[@class='']/div/a[contains(@href,'DeleteLecturer')]"));
         waitForElementIsClickableAndClick(deleteProfessorButton);
         waitForElementIsClickableAndClick(confirmButton);
         wait.waitForPageToLoad();
@@ -153,16 +142,26 @@ public class ProfessorsPage extends AbstractPage {
         return ProfessorsPage.this;
     }
 
-    public ProfessorsPage changeProfessorInformation() {
+    public ProfessorsPage changeProfessorInformation(String name, String changedName, String changedSurname, String changedPatronymic) {
         wait.waitForPageToLoad();
+        editProfessorsButton = driver.findElement(By.xpath("//tr/td[contains(text(),'" + name + "')]" +
+                "/../td[@class='']/div/a[contains(@href,'EditProfessor')]"));
         waitForElementIsClickableAndClick(editProfessorsButton);
-        sendKeysIntoWebElement(nameField, CHANGED_PROFESSORS_NAME);
-        sendKeysIntoWebElement(surnameField, CHANGED_PROFESSORS_NAME);
-        sendKeysIntoWebElement(patronymicField, CHANGED_PROFESSORS_NAME);
+        sendKeysIntoWebElement(nameField, changedName);
+        sendKeysIntoWebElement(surnameField, changedSurname);
+        sendKeysIntoWebElement(patronymicField, changedPatronymic);
         waitForElementIsClickableAndClick(submitButton);
         notification = driver.findElement(new By.ByXPath("//section[@id='alertify-logs']/" +
                 "article[contains(text(),'Преподаватель сохранен')]"));
         wait.waitForElementIsVisible(notification);
+        return ProfessorsPage.this;
+    }
+
+    public ProfessorsPage searchProfessor(String nameForSearch) {
+        wait.waitForPageToLoad();
+        professorForSearch = driver.findElement(By.xpath("//td[contains(text(),'" + nameForSearch + "')]"));
+        sendKeysIntoWebElement(searchField, nameForSearch);
+        wait.waitForElementIsVisible(professorForSearch);
         return ProfessorsPage.this;
     }
 
