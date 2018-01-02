@@ -54,10 +54,10 @@ public class StudentsPage extends AbstractPage {
                 "/../td[@class='']/div/a[contains(@href,'DeleteStudent')]"));
     }
 
-    public void changeStudent(String name, String changedName, String changedSurname, String changedPatronymic) {
+    public void changeStudent(String name, String changedName, String changedSurname, String changedPatronymic, String changedGroup) {
         waitForElementIsClickableAndClick(editStudentButton);
         Select groups = new Select(listGroups);
-        groups.selectByIndex(0);
+        groups.selectByVisibleText(changedGroup);
         sendKeysIntoWebElement(nameField, changedName);
         sendKeysIntoWebElement(surnameField, changedSurname);
         sendKeysIntoWebElement(patronymicField, changedPatronymic);

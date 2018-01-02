@@ -40,7 +40,7 @@ public class RegistrationPage extends AbstractPage {
     private WebElement listGroups;
 
     public MainPage registerStudent(String login, String password, String name,
-                                    String surname, String patronymic) {
+                                    String surname, String patronymic,String groupNumber) {
         wait.waitForPageToLoad();
         sendKeysIntoWebElement(loginField, login);
         sendKeysIntoWebElement(passwordField, password);
@@ -51,7 +51,7 @@ public class RegistrationPage extends AbstractPage {
         sendKeysIntoWebElement(patronymicField, patronymic);
         sendKeysIntoWebElement(patronymicField, patronymic);
         Select groups = new Select(listGroups);
-        groups.selectByIndex(0);
+        groups.selectByVisibleText(groupNumber);
         waitForElementIsClickableAndClick(submitButton);
         return new MainPage(driver);
     }

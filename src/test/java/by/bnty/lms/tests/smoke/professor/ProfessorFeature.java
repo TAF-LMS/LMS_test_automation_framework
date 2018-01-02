@@ -27,7 +27,7 @@ public class ProfessorFeature extends TestBase {
     }
 
     @Test(priority = 4)
-    public void deleteProfessorTest(TestData testData) throws Exception {
+    public void removeProfessorTest(TestData testData) throws Exception {
         loginPage.loginAsAdmin(testData.getAdminLogin(), testData.getAdminPassword()).chooseProfessorsTab().
                 removeProfessor(testData.getName());
     }
