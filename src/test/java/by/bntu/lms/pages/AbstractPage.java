@@ -68,9 +68,9 @@ public class AbstractPage {
         driver.switchTo().window(tabs.get(0));
     }
 
-    public void takeScreenshot(String screenName) throws IOException {
+    public void takeScreenshot(String screenName,String path) throws IOException {
         File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        FileUtils.copyFile(scrFile, new File("./src/test/resources/work/" + screenName + ".png"));
+        FileUtils.copyFile(scrFile, new File(path + screenName + ".png"));
     }
 
     protected void checkElementExistence(WebElement webElement){

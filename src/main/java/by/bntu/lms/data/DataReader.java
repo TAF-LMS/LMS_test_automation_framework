@@ -8,16 +8,17 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 public class DataReader {
 
-    protected static final String ADMIN_LOGIN = "admin";
-    protected static final String ADMIN_PASSWORD = "123456";
+    public static Object[][] dataReaderGeneric(String excelFile, String excelSheet) throws IOException {
 
-    public static Object[][] dataReaderGeneric(String excelFile, String excelSheet) {
         List<HashMap<String, String>> rawData = readTestDataList(excelSheet, excelFile);
         List<Object> testData = new ArrayList<>();
         int i = 1;
@@ -31,15 +32,6 @@ public class DataReader {
                 String value = row.get(key);
 
                 switch (key.toLowerCase()) {
-                 /*   case "testdescription":
-                        testRow.setTestDescription(value);
-                        break;*/
-                    case "adminlogin":
-                        testRow.setAdminLogin(value);
-                        break;
-                    case "adminpassword":
-                        testRow.setAdminPassword(value);
-                        break;
                     case "login":
                         testRow.setLogin(value);
                         break;
@@ -85,15 +77,10 @@ public class DataReader {
                     case "changedpatronymic":
                         testRow.setChangedPatronymic(value);
                         break;
-                    case "expectfailure":
-                        testRow.setExpectFailure(convertToBoolean(value));
-                        break;
                     default:
                         // log.info("Unsupported field in test data; field name:" + key + " value:" + value);
                 }
             }
-            testRow.setAdminLogin(ADMIN_LOGIN);
-            testRow.setAdminPassword(ADMIN_PASSWORD);
             testData.add(testRow);
         }
 
@@ -153,5 +140,7 @@ public class DataReader {
         return value.equalsIgnoreCase("YES") ||
                 value.equalsIgnoreCase("TRUE");
     }
+
+
 
 }

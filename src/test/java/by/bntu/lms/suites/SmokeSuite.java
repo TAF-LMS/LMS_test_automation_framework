@@ -11,69 +11,25 @@ import by.bntu.lms.tests.smoke.student.StudentFeature;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.ExtentTestInterruptedException;
+import org.junit.runners.Suite;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 
 import static by.bntu.lms.data.DataReader.dataReaderGeneric;
 import static org.openqa.selenium.remote.BrowserType.CHROME;
 
 @Test(groups = {"smoke"})
-public class SmokeSuite {
+public class SmokeSuite extends SuiteBase {
 
     private final String STUDENT_DATA_PATH = "./src/test/resources/data/Smoke_StudentFeature.xls";
     private final String PROFESSOR_DATA_PATH = "./src/test/resources/data/Smoke_ProfessorFeature.xls";
     private final String GROUP_DATA_PATH = "./src/test/resources/data/Smoke_GroupFeature.xls";
 
-    public static WebDriver driver;
-    protected final String START_URL = "http://172.16.11.72:2015/Account/Login";
-    protected final String ADMIN_LOGIN = "admin";
-    protected final String ADMIN_PASSWORD = "123456";
-
-    protected AbstractPage abstractPage;
-    protected LoginPage loginPage;
-
-    //for reports
-    private static ExtentReports extent;
-    private static ExtentTest test;
-    public static ExtentTestInterruptedException testexception;
-
-
-    @BeforeSuite
-    public void beforeSuite() {
-        //Report Directory and Report Name
-        extent = new ExtentReports("./src/test/resources/work/api_execution_report.html", true);
-        extent.loadConfig(new File("./src/test/resources/extent-config.xml")); //Supporting File for Extent Reporting
-        extent.addSystemInfo("Environment", "Test environment"); //It will provide Execution Machine Information
-    }
-
-    @AfterSuite
-    public void afterSuite() {
-        extent.close();  // close the Test Suite
-    }
-
-    @BeforeMethod(alwaysRun = true)
-    public void callReports(Method method) {
-        test = extent.startTest((this.getClass().getSimpleName() + " :: " + method.getName()), method.getName());
-        test.assignAuthor("LMS Test Bot"); //Test Script Author Name
-        test.assignCategory("Smoke  :: " + "admin functionality" + " :: API VERSION - " + "v1.1");
-    }
-
-    @BeforeMethod(alwaysRun = true)
-    public void init() throws Exception {
-        driver = Driver.getWebDriverInstance(CHROME);
-        loginPage = new LoginPage(driver);
-        abstractPage = new AbstractPage(driver);
-        driver.get(START_URL);
-        driver.manage().window().fullscreen();
-    }
-
-    @AfterMethod(alwaysRun = true)
-    public void tearDown(Method method) throws Exception {
-        abstractPage.takeScreenshot(method.getName());
-        driver.quit();
+    public SmokeSuite() throws IOException {
     }
 
     //Student
