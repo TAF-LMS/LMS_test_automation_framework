@@ -85,7 +85,6 @@ public class GroupsPage extends AbstractPage {
         enteringYearBox.selectByVisibleText(changedEnteringYear);
         graduatingYearBox.selectByVisibleText(changedGraduationYear);
         waitForElementIsClickableAndClick(submitButton);
-        // checkListOfStuddents();
         return GroupsPage.this;
     }
 
@@ -109,12 +108,6 @@ public class GroupsPage extends AbstractPage {
         notification = initNotification("не может быть удалена");
         wait.waitForElementIsVisible(notification);
         return GroupsPage.this;
-    }
-
-    public void checkListOfStudents() {
-        waitForElementIsClickableAndClick(listOFStudentsLink);
-        driver.switchTo().activeElement();
-        waitForElementIsClickableAndClickUsingJS(closeButton);
     }
 
 }

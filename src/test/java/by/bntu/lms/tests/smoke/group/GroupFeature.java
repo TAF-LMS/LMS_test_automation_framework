@@ -2,14 +2,10 @@ package by.bntu.lms.tests.smoke.group;
 
 import by.bntu.lms.data.DataReader;
 import by.bntu.lms.data.TestData;
-import by.bntu.lms.driver.Driver;
-import by.bntu.lms.pages.AbstractPage;
 import by.bntu.lms.pages.common.LoginPage;
 import by.bntu.lms.tests.TestBase;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.lang.reflect.Method;
 
 public class GroupFeature extends TestBase {
 
@@ -25,7 +21,7 @@ public class GroupFeature extends TestBase {
 
     @DataProvider()
     public Object[][] xlsData() throws Exception {
-        return DataReader.dataReaderGeneric("./src/test/resources/data/Smoke_GroupFeature.xlsx", "UsersData");
+        return DataReader.dataReaderGeneric("./src/test/resources/data/Smoke_GroupFeature.xls", "UsersData");
     }
 
     @Test()

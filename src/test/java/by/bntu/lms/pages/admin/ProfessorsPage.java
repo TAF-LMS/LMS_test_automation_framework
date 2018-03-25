@@ -2,7 +2,6 @@ package by.bntu.lms.pages.admin;
 
 
 import by.bntu.lms.pages.AbstractPage;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -81,7 +80,6 @@ public class ProfessorsPage extends AbstractPage {
     private WebElement professorForSearch;
 
     WebElement notification;
-    WebElement errorNotification;
 
     private WebElement initNotification(String notificationMessage) {
         return driver.findElement(new By.ByXPath("//section[@id='alertify-logs']/" +
@@ -91,22 +89,10 @@ public class ProfessorsPage extends AbstractPage {
     private WebElement initWebElement(String xpath) {
         return driver.findElement(new By.ByXPath(xpath));
     }
-  /*  public ProfessorsPage checkActionButtons() {
-        wait.waitForPageToLoad();
-        SoftAssert sa = new SoftAssert();
-        sa.assertTrue(statButton.isDisplayed(), "statButton is not displayed!");
-        sa.assertTrue(listButton.isDisplayed(), "listButton is not displayed!");
-        sa.assertTrue(profileButton.isDisplayed(), "profileButton is not displayed!");
-        sa.assertTrue(editProfessorsButton.isDisplayed(), "editProfessorsButton is not displayed!");
-        sa.assertTrue(deleteButton.isDisplayed(), "deleteButton is not displayed!");
-        sa.assertTrue(addProfessorButton.isDisplayed(), "addProfessorButton is not displayed!");
-        sa.assertAll();
-        return ProfessorsPage.this;
-    }*/
 
     public ProfessorsPage addProfessor(String userName, String password,
                                        String surname, String name,
-                                       String patronymic, boolean expectFailure) {
+                                       String patronymic) {
         wait.waitForPageToLoad();
         waitForElementIsClickableAndClick(addProfessorButton);
         sendKeysIntoWebElement(userNameField, userName);
@@ -118,17 +104,15 @@ public class ProfessorsPage extends AbstractPage {
         waitForElementIsClickableAndClick(secretaryBox);
         waitForElementIsClickableAndClick(lecturerHasGraduateStudentsBox);
         waitForElementIsClickableAndClick(submitButton);
-        if (expectFailure) {
-            errorNotification = initWebElement("//span[contains(text(),'Ошибка!')]");
-            wait.waitForElementIsVisible(errorNotification);
-        } else {
-            notification = initNotification("Преподаватель сохранен");
-            wait.waitForElementIsVisible(notification);
-        }
+
+        notification = initNotification("Преподаватель сохранен");
+        wait.waitForElementIsVisible(notification);
+
         return ProfessorsPage.this;
     }
 
-    public ProfessorsPage negativeAddProfessor(String userName, String password, String surname, String name, String patronymic) {
+    public ProfessorsPage negativeAddProfessor(String userName, String password, String surname, String name,
+                                               String patronymic) {
         wait.waitForPageToLoad();
         waitForElementIsClickableAndClick(addProfessorButton);
         sendKeysIntoWebElement(userNameField, userName);
@@ -152,19 +136,6 @@ public class ProfessorsPage extends AbstractPage {
         wait.waitForElementIsInvisible(error);
     }
 
-    /*public void checkProffCreation() {
-        wait.waitForPageToLoad();
-        wait.waitForElementIsVisible(newProfessorName);
-        wait.waitForElementIsVisible(newProfessorLogin);
-        Assert.assertEquals(lastEnter.getText(), ("-"));
-        Assert.assertEquals(countOfSubjects.getText(), ("-"));
-    }
-*/
-    public void checkStatistic() {
-        waitForElementIsClickableAndClick(statButton);
-        waitForElementIsClickableAndClick(closeButton);
-    }
-
     public ProfessorsPage removeProfessor(String login) {
         wait.waitForPageToLoad();
         deleteProfessorButton = initWebElement("//tr/td[text()='" +
@@ -177,7 +148,8 @@ public class ProfessorsPage extends AbstractPage {
         return ProfessorsPage.this;
     }
 
-    public ProfessorsPage changeProfessorInformation(String login, String changedName, String changedSurname, String changedPatronymic) {
+    public ProfessorsPage changeProfessorInformation(String login, String changedName, String changedSurname,
+                                                     String changedPatronymic) {
         wait.waitForPageToLoad();
         editProfessorsButton = initWebElement("//tr/td[text()='" +
                 login + "']" + "/../td[@class='']/div/a[contains(@href,'EditProfessor')]");
@@ -191,6 +163,7 @@ public class ProfessorsPage extends AbstractPage {
         return ProfessorsPage.this;
     }
 
+    //TODO:Check this method
     public ProfessorsPage searchProfessor(String surname) {
         wait.waitForPageToLoad();
         sendKeysIntoWebElement(searchField, surname);

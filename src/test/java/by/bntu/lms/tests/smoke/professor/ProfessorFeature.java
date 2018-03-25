@@ -2,7 +2,6 @@ package by.bntu.lms.tests.smoke.professor;
 
 import by.bntu.lms.data.TestData;
 import by.bntu.lms.pages.common.LoginPage;
-import by.bntu.lms.tests.TestBase;
 import org.testng.annotations.Test;
 
 public class ProfessorFeature {
@@ -20,7 +19,7 @@ public class ProfessorFeature {
     public void addProfessorTest(TestData testData) throws Exception {
         loginPage.loginAsAdmin(ADMIN_LOGIN, ADMIN_PASSWORD).chooseProfessorsTab().addProfessor(
                 testData.getUserName(), testData.getPassword(), testData.getSurname(), testData.getName(),
-                testData.getPatronymic(),testData.isExpectFailure());
+                testData.getPatronymic());
     }
 
     @Test(priority = 1)

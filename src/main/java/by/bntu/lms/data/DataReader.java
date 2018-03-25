@@ -8,7 +8,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,23 +16,6 @@ public class DataReader {
 
     protected static final String ADMIN_LOGIN = "admin";
     protected static final String ADMIN_PASSWORD = "123456";
-
-    public static void readFromExcel(String file) throws IOException {
-        HSSFWorkbook myExcelBook = new HSSFWorkbook(new FileInputStream(file));
-        HSSFSheet myExcelSheet = myExcelBook.getSheet("UsersData");
-        HSSFRow row = myExcelSheet.getRow(0);
-        if (row.getCell(0).getCellType() == HSSFCell.CELL_TYPE_STRING) {
-            String name = row.getCell(0).getStringCellValue();
-            System.out.println("name : " + name);
-        }
-
-        if (row.getCell(1).getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
-            String birthdate = row.getCell(1).getStringCellValue();
-            System.out.println("birthdate :" + birthdate);
-        }
-
-        myExcelBook.close();
-    }
 
     public static Object[][] dataReaderGeneric(String excelFile, String excelSheet) {
         List<HashMap<String, String>> rawData = readTestDataList(excelSheet, excelFile);
@@ -169,7 +151,7 @@ public class DataReader {
 
     private static boolean convertToBoolean(String value) {
         return value.equalsIgnoreCase("YES") ||
-                value.equalsIgnoreCase("TRUE") ? true : false;
+                value.equalsIgnoreCase("TRUE");
     }
 
 }
