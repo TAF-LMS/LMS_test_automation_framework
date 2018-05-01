@@ -17,21 +17,34 @@ public class StudentFeature {
     }
 
     @Test()
-    public void addStudentTest(TestData testData) throws Exception {
-        loginPage.moveToRegistration().registerStudent(testData.getLogin(), testData.getPassword(), testData.getName(),
-                testData.getSurname(), testData.getPatronymic(), testData.getGroupNumber());
+    public void addStudentTest(TestData testData) {
+        loginPage.moveToRegistration().registerStudent(testData.getStudentLogin(), testData.getStudentPassword(),
+                testData.getStudentName(), testData.getStudentPassword(), testData.getStudentPatronymic(),
+                testData.getStudentGroupNumber());
     }
 
     @Test()
-    public void changeStudentTest(TestData testData) throws Exception {
-        loginPage.loginAsAdmin(ADMIN_LOGIN, ADMIN_PASSWORD).chooseStudentsTab().changeStudent(
-                testData.getLogin(), testData.getChangedName(), testData.getChangedSurname(), testData.getChangedPatronymic(),
-                testData.getChangedGroupNumber());
+    public void loginStudentTest(TestData testData) {
+        loginPage.loginAsStudent(testData.getStudentLogin(), testData.getStudentPassword()).
+                checkThatLoginIsSuccessful();
     }
 
     @Test()
-    public void removeStudentTest(TestData testData) throws Exception {
-        loginPage.loginAsAdmin(ADMIN_LOGIN, ADMIN_PASSWORD).chooseStudentsTab().removeStudent(
-                testData.getLogin());
+    public void changeStudentTest(TestData testData) {
+        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseStudentsTab().changeStudent(
+                testData.getStudentLogin(), testData.getChangedStudentName(), testData.getChangedStudentSurname(),
+                testData.getChangedStudentPatronymic(), testData.getChangedStudentGroupNumber());
+    }
+
+    @Test()
+    public void changeStudentPassword(TestData testData) throws InterruptedException {
+        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseStudentsTab().changeStudentPassword(
+                testData.getStudentLogin(), testData.getChangedStudentPassword());
+    }
+
+    @Test()
+    public void removeStudentTest(TestData testData) {
+        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseStudentsTab().removeStudent(
+                testData.getStudentLogin());
     }
 }

@@ -26,26 +26,27 @@ public class GroupFeature extends TestBase {
 
     @Test()
     public void addGroupTest(TestData testData) throws Exception {
-        loginPage.loginAsAdmin(ADMIN_LOGIN, ADMIN_PASSWORD).chooseGroupsTab().
-                addGroup(testData.getGroupNumber(), testData.getEnteringYear(), testData.getGraduatingYear());
+        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseGroupsTab().
+                addGroup(testData.getGroupNumber(), testData.getGroupEnteringYear(),
+                        testData.getGroupGraduatingYear());
     }
 
     @Test()
-    public void changeGroupTest(TestData testData) throws Exception {
-        loginPage.loginAsAdmin(ADMIN_LOGIN, ADMIN_PASSWORD).chooseGroupsTab().
+    public void changeGroupTest(TestData testData) {
+        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseGroupsTab().
                 changeGroupInformation(testData.getGroupNumber(), testData.getChangedGroupNumber(),
-                        testData.getChangedEnteringYear(), testData.getChangedGraduationYear());
+                        testData.getChangedGroupEnteringYear(), testData.getChangedGroupGraduationYear());
     }
 
     @Test()
-    public void removeEmptyGroupTest(TestData testData) throws Exception {
-        loginPage.loginAsAdmin(ADMIN_LOGIN, ADMIN_PASSWORD).chooseGroupsTab().
+    public void removeEmptyGroupTest(TestData testData) {
+        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseGroupsTab().
                 removeEmptyGroup(testData.getGroupNumber());
     }
 
     @Test()
-    public void removeGroupWithStudents(TestData testData) throws Exception {
-        loginPage.loginAsAdmin(ADMIN_LOGIN, ADMIN_PASSWORD).chooseGroupsTab()
+    public void removeGroupWithStudents(TestData testData) {
+        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseGroupsTab()
                 .removeGroupWithStudents(testData.getGroupNumber());
     }
 }

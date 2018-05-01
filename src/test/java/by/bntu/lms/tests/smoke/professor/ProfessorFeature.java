@@ -2,6 +2,7 @@ package by.bntu.lms.tests.smoke.professor;
 
 import by.bntu.lms.data.TestData;
 import by.bntu.lms.pages.common.LoginPage;
+import lombok.Data;
 import org.testng.annotations.Test;
 
 public class ProfessorFeature {
@@ -15,36 +16,54 @@ public class ProfessorFeature {
         this.ADMIN_PASSWORD = ADMIN_PASSWORD;
     }
 
-    @Test(priority = 1)
-    public void addProfessorTest(TestData testData) throws Exception {
-        loginPage.loginAsAdmin(ADMIN_LOGIN, ADMIN_PASSWORD).chooseProfessorsTab().addProfessor(
-                testData.getUserName(), testData.getPassword(), testData.getSurname(), testData.getName(),
-                testData.getPatronymic());
+    public ProfessorFeature(LoginPage loginPage) {
+        this.loginPage = loginPage;
     }
 
-    @Test(priority = 1)
-    public void negativeAddProfessorTest(TestData testData) throws Exception {
-        loginPage.loginAsAdmin(ADMIN_LOGIN, ADMIN_PASSWORD).chooseProfessorsTab().negativeAddProfessor(
-                testData.getUserName(), testData.getPassword(), testData.getSurname(), testData.getName(),
-                testData.getPatronymic()).checkErrorAfterAdding();
+    @Test
+    public void addProfessorTest(TestData testData) {
+        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseProfessorsTab().addProfessor(
+                testData.getProfessorLogin(), testData.getProfessorPassword(), testData.getProfessorSurname(),
+                testData.getProfessorName(), testData.getProfessorPatronymic());
+    }
+
+    @Test
+    public void loginAsProfessorTest(TestData testData) {
+        loginPage.loginAsProfessor(testData.getProfessorLogin(), testData.getProfessorPassword()).
+                checkThatLoginIsSuccessful();
+    }
+
+    @Test
+    public void createNewSubjectTest(TestData testData) {
+        loginPage.loginAsProfessor(testData.getProfessorLogin(), testData.getProfessorPassword()).
+                moveToSubjectManagementPage().addNewSubject(testData.getSubjectName(),
+                testData.getSubjectAbbreviation(), testData.getSubjectGroups());
+    }
+
+    @Test
+    public void applyStudentTest(TestData testData) {
+        loginPage.loginAsProfessor(testData.getProfessorLogin(), testData.getProfessorPassword()).
+                moveToStudentManagementPage().applyStudent(testData.getStudentName(),
+                testData.getStudentGroupNumber());
     }
 
     @Test()
-    public void changeProfessorTest(TestData testData) throws Exception {
-        loginPage.loginAsAdmin(ADMIN_LOGIN, ADMIN_PASSWORD).chooseProfessorsTab().
-                changeProfessorInformation(testData.getLogin(), testData.getChangedName(), testData.getChangedSurname(),
-                        testData.getChangedPatronymic());
+    public void changeProfessorTest(TestData testData) {
+        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseProfessorsTab().
+                changeProfessorInformation(testData.getProfessorLogin(), testData.getChangedProfessorName(),
+                        testData.getChangedProfessorSurname(), testData.getChangedProfessorPatronymic());
     }
 
     @Test()
-    public void searchProfessorTest(TestData testData) throws Exception {
-        loginPage.loginAsAdmin(ADMIN_LOGIN, ADMIN_PASSWORD).chooseProfessorsTab().
-                searchProfessor(testData.getSurname()).checkProfessorInSearchResults(testData.getSurname());
+    public void searchProfessorTest(TestData testData) {
+        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseProfessorsTab().
+                searchProfessor(testData.getProfessorSurname()).
+                checkProfessorInSearchResults(testData.getProfessorSurname());
     }
 
     @Test()
-    public void removeProfessorTest(TestData testData) throws Exception {
-        loginPage.loginAsAdmin(ADMIN_LOGIN, ADMIN_PASSWORD).chooseProfessorsTab().
-                removeProfessor(testData.getLogin());
+    public void removeProfessorTest(TestData testData) {
+        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseProfessorsTab().
+                removeProfessor(testData.getProfessorLogin());
     }
 }

@@ -1,7 +1,7 @@
 package by.bntu.lms.pages.student;
 
 import by.bntu.lms.pages.AbstractPage;
-import by.bntu.lms.pages.admin.MainPage;
+import by.bntu.lms.pages.MainPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

@@ -32,52 +32,93 @@ public class DataReader {
                 String value = row.get(key);
 
                 switch (key.toLowerCase()) {
-                    case "login":
-                        testRow.setLogin(value);
+                    //Student
+                    case "studentlogin":
+                        testRow.setStudentLogin(value);
                         break;
-                    case "password":
-                        testRow.setPassword(value);
+                    case "studentpassword":
+                        testRow.setStudentPassword(value);
                         break;
+                    case "changedstudentpassword":
+                        testRow.setChangedStudentPassword(value);
+                        break;
+                    case "studentname":
+                        testRow.setStudentName(value);
+                        break;
+                    case "studentsurname":
+                        testRow.setStudentSurname(value);
+                        break;
+                    case "studentpatronymic":
+                        testRow.setStudentPatronymic(value);
+                        break;
+                    case "studentgroupnumber":
+                        testRow.setStudentGroupNumber(value);
+                    case "changedstudentname":
+                        testRow.setChangedStudentName(value);
+                        break;
+                    case "changedstudentsurname":
+                        testRow.setChangedStudentSurname(value);
+                        break;
+                    case "changedstudentpatronymic":
+                        testRow.setChangedStudentPatronymic(value);
+                        break;
+                    case "changedstudentgroupnumber":
+                        testRow.setChangedStudentPatronymic(value);
+                        //Professor
+                    case "professorlogin":
+                        testRow.setProfessorLogin(value);
+                        break;
+                    case "professorpassword":
+                        testRow.setProfessorPassword(value);
+                        break;
+                    case "professorsurname":
+                        testRow.setProfessorSurname(value);
+                        break;
+                    case "professorname":
+                        testRow.setProfessorName(value);
+                        break;
+                    case "professorpatronymic":
+                        testRow.setProfessorPatronymic(value);
+                        break;
+                    case "changedprofessorname":
+                        testRow.setChangedProfessorName(value);
+                        break;
+                    case "changedprofessorsurname":
+                        testRow.setChangedProfessorSurname(value);
+                        break;
+                    case "changedprofessorpatronymic":
+                        testRow.setChangedProfessorPatronymic(value);
+                        break;
+                    //Group
                     case "groupnumber":
                         testRow.setGroupNumber(value);
                         break;
-                    case "enteringyear":
-                        testRow.setEnteringYear(value);
+                    case "groupenteringyear":
+                        testRow.setGroupEnteringYear(value);
                         break;
-                    case "graduatingyear":
-                        testRow.setGraduatingYear(value);
+                    case "groupgraduatingyear":
+                        testRow.setGroupGraduatingYear(value);
                         break;
                     case "changedgroupnumber":
                         testRow.setChangedGroupNumber(value);
                         break;
-                    case "changedenteringyear":
-                        testRow.setChangedEnteringYear(value);
+                    case "changedgroupenteringyear":
+                        testRow.setChangedGroupEnteringYear(value);
                         break;
-                    case "changedgraduationyear":
-                        testRow.setChangedGraduationYear(value);
+                    case "changedgroupgraduationyear":
+                        testRow.setChangedGroupGraduationYear(value);
                         break;
-                    case "username":
-                        testRow.setUserName(value);
+                        //Add subject
+                    case "subjectname":
+                        testRow.setSubjectName(value);
                         break;
-                    case "surname":
-                        testRow.setSurname(value);
+                    case "subjectabbreviation":
+                        testRow.setSubjectAbbreviation(value);
                         break;
-                    case "name":
-                        testRow.setName(value);
+                    case "subjectgroups":
+                        testRow.setSubjectGroups(value);
                         break;
-                    case "patronymic":
-                        testRow.setPatronymic(value);
-                        break;
-                    case "changedname":
-                        testRow.setChangedName(value);
-                        break;
-                    case "changedsurname":
-                        testRow.setChangedSurname(value);
-                        break;
-                    case "changedpatronymic":
-                        testRow.setChangedPatronymic(value);
-                        break;
-                    default:
+                        default:
                         // log.info("Unsupported field in test data; field name:" + key + " value:" + value);
                 }
             }
@@ -140,7 +181,6 @@ public class DataReader {
         return value.equalsIgnoreCase("YES") ||
                 value.equalsIgnoreCase("TRUE");
     }
-
 
 
 }
