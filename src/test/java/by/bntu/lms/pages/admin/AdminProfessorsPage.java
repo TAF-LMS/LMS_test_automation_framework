@@ -79,12 +79,8 @@ public class AdminProfessorsPage extends AbstractPage {
 
     private WebElement professorForSearch;
 
-    WebElement notification;
-
-    private WebElement initNotification(String notificationMessage) {
-        return driver.findElement(new By.ByXPath("//section[@id='alertify-logs']/" +
-                "article[contains(text(),'" + notificationMessage + "')]"));
-    }
+    @FindBy(xpath = "//article[contains(@class,'success')]")
+    WebElement successfulNotification;
 
     private WebElement initWebElement(String xpath) {
         return driver.findElement(new By.ByXPath(xpath));
@@ -104,36 +100,8 @@ public class AdminProfessorsPage extends AbstractPage {
         waitForElementIsClickableAndClick(secretaryBox);
         waitForElementIsClickableAndClick(lecturerHasGraduateStudentsBox);
         waitForElementIsClickableAndClick(submitButton);
-
-        notification = initNotification("Преподаватель сохранен");
-        wait.waitForElementIsVisible(notification);
-
+        wait.waitForElementIsVisible(successfulNotification);
         return AdminProfessorsPage.this;
-    }
-
-    public AdminProfessorsPage negativeAddProfessor(String userName, String password, String surname, String name,
-                                                    String patronymic) {
-        wait.waitForPageToLoad();
-        waitForElementIsClickableAndClick(addProfessorButton);
-        sendKeysIntoWebElement(userNameField, userName);
-        sendKeysIntoWebElement(passwordField, password);
-        sendKeysIntoWebElement(confirmPasswordField, password);
-        sendKeysIntoWebElement(surnameField, surname);
-        sendKeysIntoWebElement(nameField, name);
-        sendKeysIntoWebElement(patronymicField, patronymic);
-        waitForElementIsClickableAndClick(secretaryBox);
-        waitForElementIsClickableAndClick(lecturerHasGraduateStudentsBox);
-        waitForElementIsClickableAndClick(submitButton);
-        notification = initNotification("Преподаватель сохранен");
-        wait.waitForElementIsVisible(notification);
-        return AdminProfessorsPage.this;
-    }
-
-    public void checkErrorAfterAdding() {
-        wait.waitForPageToLoad();
-        WebElement error = initWebElement("//div[@class='validation-summary-errors" +
-                " alert alert-error']");
-        wait.waitForElementIsInvisible(error);
     }
 
     public AdminProfessorsPage removeProfessor(String login) {
@@ -143,8 +111,7 @@ public class AdminProfessorsPage extends AbstractPage {
         waitForElementIsClickableAndClick(deleteProfessorButton);
         waitForElementIsClickableAndClick(confirmButton);
         wait.waitForPageToLoad();
-        notification = initNotification("удален");
-        wait.waitForElementIsVisible(notification);
+        wait.waitForElementIsVisible(successfulNotification);
         return AdminProfessorsPage.this;
     }
 
@@ -158,8 +125,7 @@ public class AdminProfessorsPage extends AbstractPage {
         sendKeysIntoWebElement(surnameField, changedSurname);
         sendKeysIntoWebElement(patronymicField, changedPatronymic);
         waitForElementIsClickableAndClick(submitButton);
-        notification = initNotification("Преподаватель сохранен");
-        wait.waitForElementIsVisible(notification);
+        wait.waitForElementIsVisible(successfulNotification);
         return AdminProfessorsPage.this;
     }
 

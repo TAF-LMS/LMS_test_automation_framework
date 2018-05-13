@@ -55,7 +55,7 @@ public class AdminStudentsPage extends AbstractPage {
     private WebElement deleteStudentButton;
 
     @FindBy(xpath = "//article[contains(@class,'success')]")
-    WebElement successfullNotification;
+    WebElement successfulNotification;
 
 
     private WebElement initWebElement(String xpath) {
@@ -72,7 +72,7 @@ public class AdminStudentsPage extends AbstractPage {
         sendKeysIntoWebElement(surnameField, changedSurname);
         sendKeysIntoWebElement(patronymicField, changedPatronymic);
         waitForElementIsClickableAndClick(submitButton);
-        wait.waitForElementIsVisible(successfullNotification);
+        wait.waitForElementIsVisible(successfulNotification);
     }
 
     public void changeStudentPassword(String login, String newPassword) throws InterruptedException {
@@ -84,7 +84,7 @@ public class AdminStudentsPage extends AbstractPage {
         sendKeysIntoWebElement(changePasswordField, newPassword);
         sendKeysIntoWebElement(changePasswordConfirmField, newPassword);
         waitForElementIsClickableAndClick(submitButton);
-        wait.waitForElementIsVisible(successfullNotification);
+        wait.waitForElementIsVisible(successfulNotification);
     }
 
     public AdminStudentsPage removeStudent(String login) {
@@ -94,7 +94,7 @@ public class AdminStudentsPage extends AbstractPage {
         waitForElementIsClickableAndClick(deleteStudentButton);
         waitForElementIsClickableAndClick(confirmButton);
         wait.waitForPageToLoad();
-        wait.waitForElementIsVisible(successfullNotification);
+        wait.waitForElementIsVisible(successfulNotification);
         return AdminStudentsPage.this;
     }
 }

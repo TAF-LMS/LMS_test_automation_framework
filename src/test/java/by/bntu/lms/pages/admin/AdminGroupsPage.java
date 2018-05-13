@@ -7,8 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
-import java.io.UnsupportedEncodingException;
-
 public class AdminGroupsPage extends AbstractPage {
 
     public AdminGroupsPage(WebDriver driver) {
@@ -45,19 +43,14 @@ public class AdminGroupsPage extends AbstractPage {
 
     private WebElement editGroupButton;
 
-    WebElement notification;
-
-    private WebElement initNotification(String notificationMessage) {
-        return driver.findElement(new By.ByXPath("//section[@id='alertify-logs']/" +
-                "article[contains(text(),'" + notificationMessage + "')]"));
-    }
+    @FindBy(xpath = "//article[contains(@class,'success')]")
+    WebElement successfulNotification;
 
     private WebElement initWebElement(String xpath) {
         return driver.findElement(new By.ByXPath(xpath));
     }
 
-    public AdminGroupsPage addGroup(String groupNumber, String enteringYear, String graduatingYear)
-            throws InterruptedException, UnsupportedEncodingException {
+    public AdminGroupsPage addGroup(String groupNumber, String enteringYear, String graduatingYear) {
         wait.waitForPageToLoad();
         waitForElementIsClickableAndClick(addGroupButton);
         sendKeysIntoWebElement(groupNameField, groupNumber);
@@ -66,15 +59,12 @@ public class AdminGroupsPage extends AbstractPage {
         enteringYearBox.selectByVisibleText(enteringYear);
         graduatingYearBox.selectByVisibleText(graduatingYear);
         waitForElementIsClickableAndClick(submitButton);
-
-        notification = initNotification("сохранена");
-        wait.waitForElementIsVisible(notification);
-
+        wait.waitForElementIsVisible(successfulNotification);
         return AdminGroupsPage.this;
     }
 
-    public AdminGroupsPage changeGroupInformation(String groupNumb, String changedGroupNumber, String changedEnteringYear,
-                                                  String changedGraduationYear) {
+    public AdminGroupsPage changeGroupInformation(String groupNumb, String changedGroupNumber,
+                                                  String changedEnteringYear, String changedGraduationYear) {
         wait.waitForPageToLoad();
         editGroupButton = initWebElement("//tr/td[text()='" +
                 groupNumb + "']" + "/../td[@class='']/div/a[contains(@href,'EditGroup')]");
@@ -94,8 +84,7 @@ public class AdminGroupsPage extends AbstractPage {
                 + "']/../td[@class='']/div/a[contains(@href,'DeleteGroup')]");
         waitForElementIsClickableAndClick(removeEmptyGroupButton);
         waitForElementIsClickableAndClick(confirmButton);
-        notification = initNotification("удалена");
-        wait.waitForElementIsVisible(notification);
+        wait.waitForElementIsVisible(successfulNotification);
         return AdminGroupsPage.this;
     }
 
@@ -105,8 +94,7 @@ public class AdminGroupsPage extends AbstractPage {
                 "td[@class='']/div/a[contains(@href,'DeleteGroup')]");
         waitForElementIsClickableAndClick(removeGroupWithStudentsButton);
         waitForElementIsClickableAndClick(confirmButton);
-        notification = initNotification("не может быть удалена");
-        wait.waitForElementIsVisible(notification);
+        wait.waitForElementIsVisible(successfulNotification);
         return AdminGroupsPage.this;
     }
 
