@@ -6,10 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class SubjectManagementPage extends AbstractPage {
 
     public SubjectManagementPage(WebDriver driver) {
@@ -44,7 +40,7 @@ public class SubjectManagementPage extends AbstractPage {
         sendKeysIntoWebElement(subjectNameField, subjectName);
         sendKeysIntoWebElement(subjectAbbreviationField, subjectAbbreviation);
         waitForElementIsClickableAndClick(showGroupsButton);
-        List<String> groupNumberList = Arrays.asList(groupNumbers.split(";"));
+        String[] groupNumberList = groupNumbers.split(";");
 
         for (String groupNumber : groupNumberList) {
             waitForElementIsClickableAndClick(initGroupCheckBox(groupNumber));

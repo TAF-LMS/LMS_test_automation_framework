@@ -15,7 +15,7 @@ public class StudentManagementPage extends AbstractPage {
     @FindBy(xpath = "//select[@ng-model='selectedGroup']")
     private WebElement groupSelector;
 
-    private WebElement checkSuccessfullConfirmation(String studentName) {
+    private WebElement checkSuccessfulConfirmation(String studentName) {
         return driver.findElement(By.xpath("//tr[@ng-repeat='data in students']/td[contains(text()," +
                 "'" + studentName + "')]/../td/div[@ng-if='data.Confirmed']"));
     }
@@ -37,7 +37,7 @@ public class StudentManagementPage extends AbstractPage {
         groupSelect.selectByVisibleText(fullGroupNumber);
 
         waitForElementIsClickableAndClick(initStudentElement(studentName));
-        wait.waitForElementIsVisible(checkSuccessfullConfirmation(studentName));
+        wait.waitForElementIsVisible(checkSuccessfulConfirmation(studentName));
     }
 
 }
