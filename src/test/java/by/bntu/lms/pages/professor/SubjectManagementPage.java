@@ -1,11 +1,13 @@
 package by.bntu.lms.pages.professor;
 
 import by.bntu.lms.pages.AbstractPage;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Log4j2
 public class SubjectManagementPage extends AbstractPage {
 
     public SubjectManagementPage(WebDriver driver) {
@@ -36,6 +38,7 @@ public class SubjectManagementPage extends AbstractPage {
     }
 
     public void addNewSubject(String subjectName, String subjectAbbreviation, String groupNumbers) {
+        log.info("Adding new subject");
         waitForElementIsClickableAndClick(addSubjectButton);
         sendKeysIntoWebElement(subjectNameField, subjectName);
         sendKeysIntoWebElement(subjectAbbreviationField, subjectAbbreviation);

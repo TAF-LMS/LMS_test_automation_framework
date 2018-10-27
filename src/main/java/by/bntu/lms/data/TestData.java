@@ -46,4 +46,7 @@ public class TestData {
     private String subjectAbbreviation;
     private String subjectGroups;
 
+    //Error handling
+    private String errorMessage;
+
 }

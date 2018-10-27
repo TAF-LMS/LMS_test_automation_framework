@@ -63,7 +63,7 @@ public class DataReader {
                         testRow.setChangedStudentPatronymic(value);
                         break;
                     case "changedstudentgroupnumber":
-                        testRow.setChangedStudentPatronymic(value);
+                        testRow.setChangedStudentGroupNumber(value);
                         //Professor
                     case "professorlogin":
                         testRow.setProfessorLogin(value);
@@ -108,7 +108,7 @@ public class DataReader {
                     case "changedgroupgraduationyear":
                         testRow.setChangedGroupGraduationYear(value);
                         break;
-                        //Add subject
+                    //Add subject
                     case "subjectname":
                         testRow.setSubjectName(value);
                         break;
@@ -118,7 +118,12 @@ public class DataReader {
                     case "subjectgroups":
                         testRow.setSubjectGroups(value);
                         break;
-                        default:
+                    //Error handling
+                    case "errormessage":
+                        testRow.setErrorMessage(value);
+                        break;
+
+                    default:
                         // log.info("Unsupported field in test data; field name:" + key + " value:" + value);
                 }
             }

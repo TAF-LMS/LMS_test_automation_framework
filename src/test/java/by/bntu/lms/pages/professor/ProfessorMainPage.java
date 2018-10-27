@@ -2,10 +2,12 @@ package by.bntu.lms.pages.professor;
 
 import by.bntu.lms.pages.AbstractPage;
 import by.bntu.lms.pages.admin.AdminProfessorsPage;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Log4j2
 public class ProfessorMainPage extends AbstractPage {
     public ProfessorMainPage(WebDriver driver) {
         super(driver);
@@ -33,6 +35,7 @@ public class ProfessorMainPage extends AbstractPage {
     }
 
     public SubjectManagementPage moveToSubjectManagementPage() {
+        log.info("Moving to subject management page");
         wait.waitForPageToLoad();
         waitForElementIsClickableAndClick(subjectsMenu);
         waitForElementIsClickableAndClick(subjectsManagementMenu);
@@ -40,6 +43,7 @@ public class ProfessorMainPage extends AbstractPage {
     }
 
     public StudentManagementPage moveToStudentManagementPage() {
+        log.info("Moving to student management page");
         wait.waitForPageToLoad();
         waitForElementIsClickableAndClick(studentsManagementMenu);
         return new StudentManagementPage(driver);

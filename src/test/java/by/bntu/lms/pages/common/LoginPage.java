@@ -6,10 +6,12 @@ import by.bntu.lms.pages.MainPage;
 import by.bntu.lms.pages.professor.ProfessorMainPage;
 import by.bntu.lms.pages.student.RegistrationPage;
 import by.bntu.lms.pages.student.StudentMainPage;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Log4j2
 public class LoginPage extends AbstractPage {
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -28,6 +30,7 @@ public class LoginPage extends AbstractPage {
     private WebElement registerButton;
 
     public MainPage loginUsingCredentials(String login, String password) {
+        log.info("Login with: " + login + " " + password);
         sendKeysIntoWebElement(loginField, login);
         sendKeysIntoWebElement(passwordField, password);
         waitForElementIsClickableAndClick(submitButton);
@@ -35,6 +38,7 @@ public class LoginPage extends AbstractPage {
     }
 
     public ProfessorMainPage loginAsProfessor(String login, String password) {
+        log.info("Login with: " + login + " " + password);
         sendKeysIntoWebElement(loginField, login);
         sendKeysIntoWebElement(passwordField, password);
         waitForElementIsClickableAndClick(submitButton);
@@ -42,6 +46,7 @@ public class LoginPage extends AbstractPage {
     }
 
     public StudentMainPage loginAsStudent(String login, String password) {
+        log.info("Login with: " + login + " " + password);
         sendKeysIntoWebElement(loginField, login);
         sendKeysIntoWebElement(passwordField, password);
         waitForElementIsClickableAndClick(submitButton);
@@ -49,6 +54,7 @@ public class LoginPage extends AbstractPage {
     }
 
     public RegistrationPage moveToRegistration() {
+        log.info("Moving to registration");
         waitForElementIsClickableAndClick(registerButton);
         return new RegistrationPage(driver);
     }

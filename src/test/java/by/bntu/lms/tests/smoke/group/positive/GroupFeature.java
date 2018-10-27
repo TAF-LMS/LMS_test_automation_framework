@@ -1,4 +1,4 @@
-package by.bntu.lms.tests.smoke.group;
+package by.bntu.lms.tests.smoke.group.positive;
 
 import by.bntu.lms.data.DataReader;
 import by.bntu.lms.data.TestData;
@@ -28,7 +28,7 @@ public class GroupFeature extends TestBase {
     public void addGroupTest(TestData testData) throws Exception {
         loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseGroupsTab().
                 addGroup(testData.getGroupNumber(), testData.getGroupEnteringYear(),
-                        testData.getGroupGraduatingYear());
+                        testData.getGroupGraduatingYear()).checkSuccessfulNotification();
     }
 
     @Test()
@@ -40,13 +40,9 @@ public class GroupFeature extends TestBase {
 
     @Test()
     public void removeEmptyGroupTest(TestData testData) {
-        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseGroupsTab().
-                removeEmptyGroup(testData.getGroupNumber());
+        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseGroupsTab()
+                .removeGroupByNumber(testData.getGroupNumber())
+                .checkGroupWasRemoved(testData.getGroupNumber());
     }
 
-    @Test()
-    public void removeGroupWithStudents(TestData testData) {
-        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseGroupsTab()
-                .removeGroupWithStudents(testData.getGroupNumber());
-    }
 }

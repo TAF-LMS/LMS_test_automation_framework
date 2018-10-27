@@ -1,4 +1,4 @@
-package by.bntu.lms.tests.smoke.professor;
+package by.bntu.lms.tests.smoke.professor.positive;
 
 import by.bntu.lms.data.TestData;
 import by.bntu.lms.pages.common.LoginPage;
@@ -24,7 +24,7 @@ public class ProfessorFeature {
     public void addProfessorTest(TestData testData) {
         loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseProfessorsTab().addProfessor(
                 testData.getProfessorLogin(), testData.getProfessorPassword(), testData.getProfessorSurname(),
-                testData.getProfessorName(), testData.getProfessorPatronymic());
+                testData.getProfessorName(), testData.getProfessorPatronymic()).checkSuccessfulNotification();
     }
 
     @Test
@@ -51,7 +51,8 @@ public class ProfessorFeature {
     public void changeProfessorTest(TestData testData) {
         loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseProfessorsTab().
                 changeProfessorInformation(testData.getProfessorLogin(), testData.getChangedProfessorName(),
-                        testData.getChangedProfessorSurname(), testData.getChangedProfessorPatronymic());
+                        testData.getChangedProfessorSurname(), testData.getChangedProfessorPatronymic())
+                .checkSuccessfulNotification();
     }
 
     @Test()

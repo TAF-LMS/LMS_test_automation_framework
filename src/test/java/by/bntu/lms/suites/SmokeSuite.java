@@ -2,9 +2,9 @@ package by.bntu.lms.suites;
 
 import by.bntu.lms.data.TestData;
 
-import by.bntu.lms.tests.smoke.group.GroupFeature;
-import by.bntu.lms.tests.smoke.professor.ProfessorFeature;
-import by.bntu.lms.tests.smoke.student.StudentFeature;
+import by.bntu.lms.tests.smoke.group.positive.GroupFeature;
+import by.bntu.lms.tests.smoke.professor.positive.ProfessorFeature;
+import by.bntu.lms.tests.smoke.student.positive.StudentFeature;
 import org.testng.annotations.*;
 
 import java.io.IOException;
@@ -29,7 +29,7 @@ public class SmokeSuite extends SuiteBase {
 
     @DataProvider()
     public Object[][] loginStudentData() throws Exception {
-        return dataReaderGeneric(STUDENT_DATA_PATH, "LoginStudent");
+        return dataReaderGeneric(STUDENT_DATA_PATH, "LoginAppliedStudent");
     }
 
     @DataProvider()
@@ -96,7 +96,7 @@ public class SmokeSuite extends SuiteBase {
 
     @DataProvider()
     public Object[][] removeEmptyGroupData() throws Exception {
-        return dataReaderGeneric(GROUP_DATA_PATH, "RemoveEmptyGroup");
+        return dataReaderGeneric(GROUP_DATA_PATH, "RemoveGroup");
     }
 
     @DataProvider()
@@ -110,61 +110,61 @@ public class SmokeSuite extends SuiteBase {
         new StudentFeature(loginPage, ADMIN_LOGIN, ADMIN_PASSWORD).addStudentTest(testData);
     }
 
-    //Student
-    @Test(priority = 3, dataProvider = "loginStudentData")
-    public void loginStudentTest(TestData testData) {
-        new StudentFeature(loginPage, ADMIN_LOGIN, ADMIN_PASSWORD).loginStudentTest(testData);
-    }
-
-
-    @Test(priority = 4, dataProvider = "changeStudentData")
-    public void changeStudentTest(TestData testData) {
+    @Test(priority = 5, dataProvider = "changeStudentData")
+    public void changeStudentTest(TestData testData) throws InterruptedException {
         new StudentFeature(loginPage, ADMIN_LOGIN, ADMIN_PASSWORD).changeStudentTest(testData);
     }
 
-    @Test(priority = 5, dataProvider = "changeStudentPasswordData")
+    @Test(priority = 6, dataProvider = "changeStudentPasswordData")
     public void changeStudentPassword(TestData testData) throws InterruptedException {
         new StudentFeature(loginPage, ADMIN_LOGIN, ADMIN_PASSWORD).changeStudentPassword(testData);
     }
 
-    @Test(priority = 7, dataProvider = "removeStudentData")
+    @Test(priority = 14, dataProvider = "removeStudentData")
     public void removeStudentTest(TestData testData) {
         new StudentFeature(loginPage, ADMIN_LOGIN, ADMIN_PASSWORD).removeStudentTest(testData);
     }
 
     //Professor
-    @Test(priority = 8, dataProvider = "addProfessorData")
+    @Test(priority = 7, dataProvider = "addProfessorData")
     public void addProfessorTest(TestData testData) {
         new ProfessorFeature(loginPage, ADMIN_LOGIN, ADMIN_PASSWORD).addProfessorTest(testData);
     }
 
-    @Test(priority = 9, dataProvider = "loginProfessorData")
-    public void checkProfessorLogInTest(TestData testData) {
-        new ProfessorFeature(loginPage).loginAsProfessorTest(testData);
-    }
 
-    @Test(priority = 9, dataProvider = "createNewSubjectData")
-    public void createNewSubjectTest(TestData testData) {
-        new ProfessorFeature(loginPage).createNewSubjectTest(testData);
-    }
-
-    @Test(priority = 9, dataProvider = "applyNewStudentData")
-    public void applyNewStudentTest(TestData testData) {
-        new ProfessorFeature(loginPage).applyStudentTest(testData);
-    }
-
-
-    @Test(priority = 10, dataProvider = "changeProfessorData")
+    @Test(priority = 8, dataProvider = "changeProfessorData")
     public void changeProfessorTest(TestData testData) {
         new ProfessorFeature(loginPage, ADMIN_LOGIN, ADMIN_PASSWORD).changeProfessorTest(testData);
     }
 
+    /*//TODO: Clarify whether it is needed
+    @Test(priority = 9, dataProvider = "loginProfessorData")
+    public void checkProfessorLogInTest(TestData testData) {
+        new ProfessorFeature(loginPage).loginAsProfessorTest(testData);
+    }*/
+
+    @Test(priority = 10, dataProvider = "createNewSubjectData")
+    public void createNewSubjectTest(TestData testData) {
+        new ProfessorFeature(loginPage).createNewSubjectTest(testData);
+    }
+
+    @Test(priority = 11, dataProvider = "applyNewStudentData")
+    public void applyNewStudentTest(TestData testData) {
+        new ProfessorFeature(loginPage).applyStudentTest(testData);
+    }
+
+    //Student
+    @Test(priority = 12, dataProvider = "loginStudentData")
+    public void loginAppliedStudentTest(TestData testData) {
+        new StudentFeature(loginPage, ADMIN_LOGIN, ADMIN_PASSWORD).loginStudentTest(testData);
+    }
+/*
     @Test(priority = 11, dataProvider = "searchProfessorData")
     public void searchProfessorTest(TestData testData) {
         new ProfessorFeature(loginPage, ADMIN_LOGIN, ADMIN_PASSWORD).searchProfessorTest(testData);
-    }
+    }*/
 
-    @Test(priority = 12, dataProvider = "removeProfessorData")
+    @Test(priority = 13, dataProvider = "removeProfessorData")
     public void removeProfessorTest(TestData testData) {
         new ProfessorFeature(loginPage, ADMIN_LOGIN, ADMIN_PASSWORD).removeProfessorTest(testData);
     }
@@ -181,13 +181,9 @@ public class SmokeSuite extends SuiteBase {
     }
 
     //create
-    @Test(priority = 8, dataProvider = "removeEmptyGroupData")
-    public void removeEmptyGroupTest(TestData testData) {
+    @Test(priority = 15, dataProvider = "removeEmptyGroupData")
+    public void removeGroupTest(TestData testData) {
         new GroupFeature(loginPage, ADMIN_LOGIN, ADMIN_PASSWORD).removeEmptyGroupTest(testData);
     }
 
-    @Test(priority = 6, dataProvider = "removeGroupWithStudentsData")
-    public void removeGroupWithStudentsTest(TestData testData) {
-        new GroupFeature(loginPage, ADMIN_LOGIN, ADMIN_PASSWORD).removeGroupWithStudents(testData);
-    }
 }

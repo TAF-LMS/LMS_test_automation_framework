@@ -2,11 +2,15 @@ package by.bntu.lms.pages.admin;
 
 
 import by.bntu.lms.pages.AbstractPage;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.Arrays;
+
+@Log4j2
 public class AdminProfessorsPage extends AbstractPage {
 
     public AdminProfessorsPage(WebDriver driver) {
@@ -79,16 +83,38 @@ public class AdminProfessorsPage extends AbstractPage {
 
     private WebElement professorForSearch;
 
+    private WebElement failedMessage;
+
     @FindBy(xpath = "//article[contains(@class,'success')]")
-    WebElement successfulNotification;
+    private WebElement successfulNotification;
 
     private WebElement initWebElement(String xpath) {
         return driver.findElement(new By.ByXPath(xpath));
     }
 
+    public void checkSuccessfulNotification() {
+        wait.waitForElementIsVisible(successfulNotification);
+    }
+
+    /**
+     * The method is able to check several error messages separated by ';' symbol
+     *
+     * @param expectedErrorMessage expected message at the page
+     */
+    public void checkFailedMessage(String expectedErrorMessage) {
+        Arrays.asList(expectedErrorMessage.split(";")).forEach(
+                errorMessage -> {
+                    failedMessage = initWebElement("//li[contains(text(),'" + errorMessage + "')]");
+                    wait.waitForElementIsVisible(failedMessage);
+                }
+        );
+    }
+
+    //TODO: add submit password field
     public AdminProfessorsPage addProfessor(String userName, String password,
                                             String surname, String name,
                                             String patronymic) {
+        log.info("Adding new professor");
         wait.waitForPageToLoad();
         waitForElementIsClickableAndClick(addProfessorButton);
         sendKeysIntoWebElement(userNameField, userName);
@@ -100,11 +126,11 @@ public class AdminProfessorsPage extends AbstractPage {
         waitForElementIsClickableAndClick(secretaryBox);
         waitForElementIsClickableAndClick(lecturerHasGraduateStudentsBox);
         waitForElementIsClickableAndClick(submitButton);
-        wait.waitForElementIsVisible(successfulNotification);
         return AdminProfessorsPage.this;
     }
 
     public AdminProfessorsPage removeProfessor(String login) {
+        log.info("Removing professor");
         wait.waitForPageToLoad();
         deleteProfessorButton = initWebElement("//tr/td[text()='" +
                 login + "']" + "/../td[@class='']/div/a[contains(@href,'DeleteLecturer')]");
@@ -117,6 +143,7 @@ public class AdminProfessorsPage extends AbstractPage {
 
     public AdminProfessorsPage changeProfessorInformation(String login, String changedName, String changedSurname,
                                                           String changedPatronymic) {
+        log.info("Changing professor information");
         wait.waitForPageToLoad();
         editProfessorsButton = initWebElement("//tr/td[text()='" +
                 login + "']" + "/../td[@class='']/div/a[contains(@href,'EditProfessor')]");
@@ -125,12 +152,12 @@ public class AdminProfessorsPage extends AbstractPage {
         sendKeysIntoWebElement(surnameField, changedSurname);
         sendKeysIntoWebElement(patronymicField, changedPatronymic);
         waitForElementIsClickableAndClick(submitButton);
-        wait.waitForElementIsVisible(successfulNotification);
         return AdminProfessorsPage.this;
     }
 
     //TODO:Check this method
     public AdminProfessorsPage searchProfessor(String surname) {
+        log.info("Search for a professor");
         wait.waitForPageToLoad();
         sendKeysIntoWebElement(searchField, surname);
         //wait.waitForElementIsVisible(driver.findElement(By.xpath("//td[contains(text(),'" + surname + "')]")));

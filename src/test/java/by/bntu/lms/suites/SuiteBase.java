@@ -3,6 +3,7 @@ package by.bntu.lms.suites;
 import by.bntu.lms.driver.Driver;
 import by.bntu.lms.pages.AbstractPage;
 import by.bntu.lms.pages.common.LoginPage;
+import by.bntu.lms.properties.ProjectProperties;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.ExtentTestInterruptedException;
@@ -11,7 +12,6 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Properties;
@@ -36,8 +36,8 @@ public class SuiteBase {
     private static ExtentTest test;
     public static ExtentTestInterruptedException testexception;
 
-    public SuiteBase() throws IOException {
-        Properties properties = loadProjectProperties();
+    SuiteBase() throws IOException {
+        Properties properties = new ProjectProperties().loadProjectProperties();
         this.ADMIN_LOGIN = properties.getProperty("adminLogin");
         this.ADMIN_PASSWORD = properties.getProperty("adminPassword");
         this.startURL = properties.getProperty("initialURL");
@@ -86,13 +86,4 @@ public class SuiteBase {
         abstractPage.takeScreenshot(counter++ + "_" + method.getName(), workDir);
         driver.quit();
     }
-
-    private Properties loadProjectProperties() throws IOException {
-        Properties properties = new Properties();
-        FileInputStream in = new FileInputStream("./configurations/project.properties");
-        properties.load(in);
-        in.close();
-        return properties;
-    }
-
 }

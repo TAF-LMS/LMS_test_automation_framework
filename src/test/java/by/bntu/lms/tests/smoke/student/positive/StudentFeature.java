@@ -1,4 +1,4 @@
-package by.bntu.lms.tests.smoke.student;
+package by.bntu.lms.tests.smoke.student.positive;
 
 import by.bntu.lms.pages.common.LoginPage;
 import by.bntu.lms.data.TestData;
@@ -19,7 +19,7 @@ public class StudentFeature {
     @Test()
     public void addStudentTest(TestData testData) {
         loginPage.moveToRegistration().registerStudent(testData.getStudentLogin(), testData.getStudentPassword(),
-                testData.getStudentName(), testData.getStudentPassword(), testData.getStudentPatronymic(),
+                testData.getStudentName(), testData.getStudentSurname(), testData.getStudentPatronymic(),
                 testData.getStudentGroupNumber());
     }
 
@@ -30,16 +30,19 @@ public class StudentFeature {
     }
 
     @Test()
-    public void changeStudentTest(TestData testData) {
+    public void changeStudentTest(TestData testData) throws InterruptedException {
         loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseStudentsTab().changeStudent(
                 testData.getStudentLogin(), testData.getChangedStudentName(), testData.getChangedStudentSurname(),
-                testData.getChangedStudentPatronymic(), testData.getChangedStudentGroupNumber());
+                testData.getChangedStudentPatronymic(), testData.getChangedStudentGroupNumber())
+                .checkSuccessfulNotification();
     }
 
     @Test()
     public void changeStudentPassword(TestData testData) throws InterruptedException {
-        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseStudentsTab().changeStudentPassword(
-                testData.getStudentLogin(), testData.getChangedStudentPassword());
+        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD)
+                .chooseStudentsTab()
+                .changeStudentPassword(testData.getStudentLogin(), testData.getChangedStudentPassword())
+                .checkSuccessfulNotification();
     }
 
     @Test()
