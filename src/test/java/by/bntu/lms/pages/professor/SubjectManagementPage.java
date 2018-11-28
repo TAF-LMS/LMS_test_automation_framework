@@ -1,16 +1,20 @@
 package by.bntu.lms.pages.professor;
 
 import by.bntu.lms.pages.AbstractPage;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Data
 @Log4j2
+@EqualsAndHashCode(callSuper = false)
 public class SubjectManagementPage extends AbstractPage {
 
-    public SubjectManagementPage(WebDriver driver) {
+    SubjectManagementPage(WebDriver driver) {
         super(driver);
     }
 
@@ -49,7 +53,5 @@ public class SubjectManagementPage extends AbstractPage {
             waitForElementIsClickableAndClick(initGroupCheckBox(groupNumber));
         }
         waitForElementIsClickableAndClick(saveButton);
-
     }
-
 }

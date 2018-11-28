@@ -1,6 +1,8 @@
 package by.bntu.lms.pages.professor;
 
 import by.bntu.lms.pages.AbstractPage;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -8,23 +10,26 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
+@Data
 @Log4j2
+@EqualsAndHashCode(callSuper = false)
 public class StudentManagementPage extends AbstractPage {
-    public StudentManagementPage(WebDriver driver) {
+
+    StudentManagementPage(WebDriver driver) {
         super(driver);
     }
 
     @FindBy(xpath = "//select[@ng-model='selectedGroup']")
     private WebElement groupSelector;
 
-    private WebElement checkSuccessfulConfirmation(String studentName) {
-        return driver.findElement(By.xpath("//tr[@ng-repeat='data in students']/td[contains(text()," +
+    private void checkSuccessfulConfirmation(String studentName) {
+        driver.findElement(By.xpath("//tr[@ng-repeat='data in students']/td[contains(text()," +
                 "'" + studentName + "')]/../td/div[@ng-if='data.Confirmed']"));
     }
 
     private WebElement acceptStudentElement(String studentName) {
         return driver.findElement(By.xpath("//tr[@ng-repeat='data in students']/td[contains(text()," +
-                "'" + studentName + "')]/../td[3]/div/a[@ng-click='confirmationStudent(data.StudentId)']"));
+                "'" + studentName + "')]/../td[3]/div/a[@ng-click='unConfirmationStudent(data.StudentId)']"));
     }
 
     private WebElement unassignStudentElement(String studentName) {
@@ -54,5 +59,4 @@ public class StudentManagementPage extends AbstractPage {
 
         checkSuccessfulConfirmation(studentName);
     }
-
 }

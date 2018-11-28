@@ -2,15 +2,19 @@ package by.bntu.lms.pages.admin;
 
 
 import by.bntu.lms.pages.AbstractPage;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
+@Data
 @Log4j2
+@EqualsAndHashCode(callSuper = false)
 public class AdminProfessorsPage extends AbstractPage {
 
     public AdminProfessorsPage(WebDriver driver) {
@@ -22,8 +26,6 @@ public class AdminProfessorsPage extends AbstractPage {
 
     @FindBy(xpath = "//a[@class='listButton']")
     private WebElement listButton;
-
-    private WebElement editProfessorsButton;
 
     @FindBy(xpath = "//a[@class='deleteButton']")
     private WebElement deleteButton;
@@ -81,16 +83,12 @@ public class AdminProfessorsPage extends AbstractPage {
     @FindBy(xpath = "//tr[@class='odd']/td[2]")
     private WebElement firstProfessorName;
 
-    private WebElement professorForSearch;
-
-    private WebElement failedMessage;
-
     @FindBy(xpath = "//article[contains(@class,'success')]")
     private WebElement successfulNotification;
 
-    private WebElement initWebElement(String xpath) {
-        return driver.findElement(new By.ByXPath(xpath));
-    }
+    private WebElement editProfessorsButton;
+    private WebElement professorForSearch;
+    private WebElement failedMessage;
 
     public void checkSuccessfulNotification() {
         wait.waitForElementIsVisible(successfulNotification);
@@ -129,7 +127,7 @@ public class AdminProfessorsPage extends AbstractPage {
         return AdminProfessorsPage.this;
     }
 
-    public AdminProfessorsPage removeProfessor(String login) {
+    public void removeProfessor(String login) {
         log.info("Removing professor");
         wait.waitForPageToLoad();
         deleteProfessorButton = initWebElement("//tr/td[text()='" +
@@ -138,7 +136,6 @@ public class AdminProfessorsPage extends AbstractPage {
         waitForElementIsClickableAndClick(confirmButton);
         wait.waitForPageToLoad();
         wait.waitForElementIsVisible(successfulNotification);
-        return AdminProfessorsPage.this;
     }
 
     public AdminProfessorsPage changeProfessorInformation(String login, String changedName, String changedSurname,
@@ -155,11 +152,12 @@ public class AdminProfessorsPage extends AbstractPage {
         return AdminProfessorsPage.this;
     }
 
-    //TODO:Check this method
-    public AdminProfessorsPage searchProfessor(String surname) {
+    //TODO:Check this method Wait 3 seconds for professor
+    public AdminProfessorsPage searchProfessor(String surname) throws InterruptedException {
         log.info("Search for a professor");
         wait.waitForPageToLoad();
         sendKeysIntoWebElement(searchField, surname);
+        TimeUnit.SECONDS.sleep(3);
         //wait.waitForElementIsVisible(driver.findElement(By.xpath("//td[contains(text(),'" + surname + "')]")));
         return AdminProfessorsPage.this;
     }
@@ -169,5 +167,4 @@ public class AdminProfessorsPage extends AbstractPage {
         professorForSearch = initWebElement("//td[contains(text(),'" + surname + "')]");
         wait.waitForElementIsVisible(professorForSearch);
     }
-
 }

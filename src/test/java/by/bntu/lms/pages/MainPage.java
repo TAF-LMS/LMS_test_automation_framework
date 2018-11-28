@@ -3,11 +3,16 @@ package by.bntu.lms.pages;
 import by.bntu.lms.pages.admin.AdminGroupsPage;
 import by.bntu.lms.pages.admin.AdminProfessorsPage;
 import by.bntu.lms.pages.admin.AdminStudentsPage;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class MainPage extends AbstractPage {
+
     public MainPage(WebDriver driver) {
         super(driver);
     }
@@ -27,7 +32,6 @@ public class MainPage extends AbstractPage {
     @FindBy(xpath = "//a[contains(@href,'Message')]")
     private WebElement messageLink;
 
-
     public AdminProfessorsPage chooseProfessorsTab() {
         waitForElementIsClickableAndClick(professorsLink);
         return new AdminProfessorsPage(driver);
@@ -42,5 +46,4 @@ public class MainPage extends AbstractPage {
         waitForElementIsClickableAndClick(studentsLink);
         return new AdminStudentsPage(driver);
     }
-
 }

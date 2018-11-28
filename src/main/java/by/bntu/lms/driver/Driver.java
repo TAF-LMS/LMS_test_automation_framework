@@ -1,84 +1,47 @@
 package by.bntu.lms.driver;
 
+import by.bntu.lms.properties.ProjectProperties;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 public class Driver {
-    private static final String DEFAULT_WEB_DRIVER = "DEFAULT_WEB_DRIVER";
+    private static WebDriver webDriver;
 
-    private static WebDriverTypes defaultDriverType = WebDriverTypes.CHROME;
-
-    private static HashMap<String, org.openqa.selenium.WebDriver> instances;
-
-    static {
-        instances = new HashMap<String, WebDriver>();
-    }
-
-    public static WebDriver getWebDriverInstance(String name,
-                                                 WebDriverTypes type) throws Exception {
-        WebDriver driver;
-       /* if (!instances.containsKey(name)) {*/
-        switch (type) {
-            case FIREFOX: {
-                driver = new FirefoxDriver();
-                break;
-            }
-            case IE: {
-                System.setProperty("webdriver.ie.driver",
-                        "./drivers/IEDriverServer.exe");
-                driver = new InternetExplorerDriver();
-                break;
-            }
-            case CHROME: {
-                System.setProperty("webdriver.chrome.driver",
-                        "./drivers/chromedriver.exe");
-                driver = new ChromeDriver();
-                break;
-            }
-            case REMOTE_CHROME: {
-                DesiredCapabilities capabilities = new DesiredCapabilities();
-                capabilities.setJavascriptEnabled(true);
-                capabilities.setBrowserName("chrome");
-                capabilities.setPlatform(Platform.LINUX);
-                RemoteWebDriver rwd = new RemoteWebDriver(new URL("http://10.153.30.106:5555/wd/hub"), capabilities);
-                rwd.setLogLevel(Level.OFF);
-                driver = rwd;
-                break;
-            }
-            default:
-                throw new Exception("Unknown web driver specified: " + type);
-        }
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        instances.put(name, driver);
-        /*} else {
-            //driver = instances.get(name);
-            *//*DesiredCapabilities capability = DesiredCapabilities.chrome();
-            driver = new RemoteWebDriver(new URL("http://10.153.30.106:4444"), capability);*//*
-            driver = new ChromeDriver();
-        }*/
-        return driver;
+    private void Driver() {
+        throw new AssertionError("No instances of this class should exist");
     }
 
     public static WebDriver getWebDriverInstance(String name) throws Exception {
-        return getWebDriverInstance(name, defaultDriverType);
-    }
+        //if (webDriver != null) return webDriver;
 
-    public static WebDriver getWebDriverInstance() throws Exception {
-        return getWebDriverInstance(DEFAULT_WEB_DRIVER, defaultDriverType);
+        switch (name.toUpperCase()) {
+            case "CHROME": {
+                System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+                webDriver = new ChromeDriver();
+                break;
+            }
+            case "REMOTE_CHROME": {
+                String hub = ProjectProperties.getInstance().getProperty("hub");
+                DesiredCapabilities capabilities = new DesiredCapabilities();
+                capabilities.setJavascriptEnabled(true);
+                capabilities.setBrowserName("chrome");
+                capabilities.setPlatform(Platform.WINDOWS);
+                RemoteWebDriver rwd = new RemoteWebDriver(new URL(hub), capabilities);
+                rwd.setLogLevel(Level.OFF);
+                webDriver = rwd;
+                break;
+            }
+            default:
+                throw new Exception("Unknown web driver specified: " + name);
+        }
+        webDriver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+        return webDriver;
     }
-
-    public static void setDefaultWebDriverType(WebDriverTypes type) {
-        defaultDriverType = type;
-    }
-
 }

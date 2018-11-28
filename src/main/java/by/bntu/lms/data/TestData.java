@@ -1,11 +1,9 @@
 package by.bntu.lms.data;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.ToString;
 
-@Getter
-@Setter
+@Data
 @ToString
 public class TestData {
     private String testName;
@@ -48,5 +46,4 @@ public class TestData {
 
     //Error handling
     private String errorMessage;
-
 }

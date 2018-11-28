@@ -1,18 +1,22 @@
 package by.bntu.lms.pages.common;
 
-
 import by.bntu.lms.pages.AbstractPage;
 import by.bntu.lms.pages.MainPage;
 import by.bntu.lms.pages.professor.ProfessorMainPage;
 import by.bntu.lms.pages.student.RegistrationPage;
 import by.bntu.lms.pages.student.StudentMainPage;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Data
 @Log4j2
+@EqualsAndHashCode(callSuper = false)
 public class LoginPage extends AbstractPage {
+
     public LoginPage(WebDriver driver) {
         super(driver);
     }
@@ -58,5 +62,4 @@ public class LoginPage extends AbstractPage {
         waitForElementIsClickableAndClick(registerButton);
         return new RegistrationPage(driver);
     }
-
 }

@@ -2,11 +2,14 @@ package by.bntu.lms.pages.student;
 
 import by.bntu.lms.pages.AbstractPage;
 import by.bntu.lms.pages.admin.AdminProfessorsPage;
-import org.openqa.selenium.By;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class StudentMainPage extends AbstractPage {
 
     public StudentMainPage(WebDriver driver) {
@@ -18,22 +21,16 @@ public class StudentMainPage extends AbstractPage {
 
     private WebElement failedMessage;
 
-    private WebElement initWebElement(String xpath) {
-        return driver.findElement(new By.ByXPath(xpath));
-    }
-
-    public AdminProfessorsPage checkThatLoginIsSuccessful() {
+    public void checkThatLoginIsSuccessful() {
         wait.waitForPageToLoad();
         wait.waitForElementIsVisible(userIcon);
-        return new AdminProfessorsPage(driver);
     }
 
-    public AdminProfessorsPage checkThatLoginIsFailed(String expectedErrorMessage) {
+    public void checkThatLoginIsFailed(String expectedErrorMessage) {
         wait.waitForPageToLoad();
         driver.switchTo().activeElement();
         failedMessage = initWebElement("//div[contains(text(),'" + expectedErrorMessage + "')]");
         wait.waitForElementIsVisible(failedMessage);
-        return new AdminProfessorsPage(driver);
+        new AdminProfessorsPage(driver);
     }
-
 }

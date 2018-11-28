@@ -1,9 +1,9 @@
 package by.bntu.lms.pages.student;
 
 import by.bntu.lms.pages.AbstractPage;
-import by.bntu.lms.pages.MainPage;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,8 +11,11 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.Arrays;
 
+@Data
 @Log4j2
+@EqualsAndHashCode(callSuper = false)
 public class RegistrationPage extends AbstractPage {
+
     public RegistrationPage(WebDriver driver) {
         super(driver);
     }
@@ -46,11 +49,6 @@ public class RegistrationPage extends AbstractPage {
 
     private WebElement failedMessage;
 
-    private WebElement initWebElement(String xpath) {
-        return driver.findElement(new By.ByXPath(xpath));
-    }
-
-
     public void checkFailedMessage(String expectedErrorMessage) {
         Arrays.asList(expectedErrorMessage.split(";")).forEach(
                 errorMessage -> {
@@ -60,11 +58,10 @@ public class RegistrationPage extends AbstractPage {
         );
     }
 
-    public MainPage registerStudent(String login, String password, String name,
-                                    String surname, String patronymic, String groupNumber) {
+    public void registerStudent(String login, String password, String name,
+                                String surname, String patronymic, String groupNumber) {
         log.info("Registering new student");
         registerStudentAndBeOnPage(login, password, name, surname, patronymic, groupNumber);
-        return new MainPage(driver);
     }
 
     public RegistrationPage registerStudentAndBeOnPage(String login, String password, String name,
@@ -83,5 +80,4 @@ public class RegistrationPage extends AbstractPage {
         waitForElementIsClickableAndClick(submitButton);
         return this;
     }
-
 }

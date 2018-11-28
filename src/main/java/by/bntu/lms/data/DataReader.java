@@ -8,17 +8,14 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
 
+@Log4j2
 public class DataReader {
 
-    public static Object[][] dataReaderGeneric(String excelFile, String excelSheet) throws IOException {
-
+    public static Object[][] dataReaderGeneric(String excelFile, String excelSheet) {
         List<HashMap<String, String>> rawData = readTestDataList(excelSheet, excelFile);
         List<Object> testData = new ArrayList<>();
         int i = 1;
@@ -122,9 +119,8 @@ public class DataReader {
                     case "errormessage":
                         testRow.setErrorMessage(value);
                         break;
-
                     default:
-                        // log.info("Unsupported field in test data; field name:" + key + " value:" + value);
+                        log.error("Unsupported field in test data; field name:" + key + " value:" + value);
                 }
             }
             testData.add(testRow);
@@ -135,14 +131,16 @@ public class DataReader {
         for (i = 0; i < testData.size(); i++) {
             testNgData[i][0] = testData.get(i);
         }
-        return testNgData;
 
+        log.info(testData.toString());
+
+        return testNgData;
     }
 
     private static List<HashMap<String, String>> readTestDataList(String dataSheetName, String xlsFileName) {
         try {
             String e = "./" + xlsFileName;
-            // log.info("Reading from: " + xlsFileName + " Sheet: " + dataSheetName);
+            log.info("Reading from: " + xlsFileName + " Sheet: " + dataSheetName);
             HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(new File(e)));
             HSSFSheet suiteSheet = workbook.getSheet(dataSheetName);
             int rowSuiteAmount = suiteSheet.getPhysicalNumberOfRows();
@@ -176,16 +174,9 @@ public class DataReader {
 
             return resultList;
         } catch (Exception e) {
-            // log.error("Problems at reading Excel sheet: " + dataSheetName + " from file:" + xlsFileName + "\n" +
-            //          e.getMessage());
+            log.error("Problems at reading Excel sheet: " + dataSheetName + " from file:" + xlsFileName + "\n" +
+                    e.getMessage());
             return null;
         }
     }
-
-    private static boolean convertToBoolean(String value) {
-        return value.equalsIgnoreCase("YES") ||
-                value.equalsIgnoreCase("TRUE");
-    }
-
-
 }

@@ -1,17 +1,20 @@
 package by.bntu.lms.pages.admin;
 
 import by.bntu.lms.pages.AbstractPage;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
-import org.junit.Assert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 
 import java.util.Arrays;
 
+@Data
 @Log4j2
+@EqualsAndHashCode(callSuper = false)
 public class AdminGroupsPage extends AbstractPage {
 
     public AdminGroupsPage(WebDriver driver) {
@@ -42,20 +45,11 @@ public class AdminGroupsPage extends AbstractPage {
     @FindBy(xpath = "//a[@class='bootbox-close-button close']")
     private WebElement closeButton;
 
-    private WebElement removeGroupWithStudentsButton;
-
-    private WebElement removeEmptyGroupButton;
-
-    private WebElement editGroupButton;
-
     @FindBy(xpath = "//article[contains(@class,'success')]")
     private WebElement successfulNotification;
 
+    private WebElement removeEmptyGroupButton;
     private WebElement failedMessage;
-
-    private WebElement initWebElement(String xpath) {
-        return driver.findElement(new By.ByXPath(xpath));
-    }
 
     public void checkSuccessfulNotification() {
         wait.waitForElementIsVisible(successfulNotification);
@@ -98,7 +92,7 @@ public class AdminGroupsPage extends AbstractPage {
                                                   String changedEnteringYear, String changedGraduationYear) {
         log.info("Changing group details");
         wait.waitForPageToLoad();
-        editGroupButton = initWebElement("//tr/td[text()='" +
+        WebElement editGroupButton = initWebElement("//tr/td[text()='" +
                 groupNumb + "']" + "/../td[@class='']/div/a[contains(@href,'EditGroup')]");
         waitForElementIsClickableAndClick(editGroupButton);
         sendKeysIntoWebElement(groupNameField, changedGroupNumber);
@@ -125,7 +119,6 @@ public class AdminGroupsPage extends AbstractPage {
         wait.waitForElementIsVisible(successfulNotification);
         removeEmptyGroupButton = initWebElement("//tr/td[text()='" + groupNumb
                 + "']/../td[@class='']/div/a[contains(@href,'DeleteGroup')]");
-        Assert.assertNull("Group has not been removed", removeEmptyGroupButton);
+        Assert.assertNull(removeEmptyGroupButton, "Group has not been removed");
     }
-
 }

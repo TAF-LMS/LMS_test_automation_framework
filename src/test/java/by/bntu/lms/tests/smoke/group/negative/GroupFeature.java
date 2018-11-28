@@ -2,40 +2,40 @@ package by.bntu.lms.tests.smoke.group.negative;
 
 import by.bntu.lms.data.TestData;
 import by.bntu.lms.pages.common.LoginPage;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.testng.annotations.Test;
 
+@Data
+@AllArgsConstructor
 public class GroupFeature {
-
-    LoginPage loginPage;
-    String ADMIN_LOGIN;
-    String ADMIN_PASSWORD;
-
-    public GroupFeature(LoginPage loginPage, String ADMIN_LOGIN, String ADMIN_PASSWORD) {
-        this.loginPage = loginPage;
-        this.ADMIN_LOGIN = ADMIN_LOGIN;
-        this.ADMIN_PASSWORD = ADMIN_PASSWORD;
-    }
-
+    private LoginPage loginPage;
+    private String adminLogin;
+    private String adminPassword;
 
     @Test()
     public void addGroupTest(TestData testData) {
-        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseGroupsTab().
-                addGroup(testData.getGroupNumber(), testData.getGroupEnteringYear(),
-                        testData.getGroupGraduatingYear()).checkFailedMessage(testData.getErrorMessage());
+        loginPage
+                .loginUsingCredentials(adminLogin, adminPassword).chooseGroupsTab()
+                .addGroup(testData.getGroupNumber(), testData.getGroupEnteringYear(), testData.getGroupGraduatingYear())
+                .checkFailedMessage(testData.getErrorMessage());
     }
 
     @Test()
     public void changeGroupTest(TestData testData) {
-        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseGroupsTab().
-                changeGroupInformation(testData.getGroupNumber(), testData.getChangedGroupNumber(),
+        loginPage
+                .loginUsingCredentials(adminLogin, adminPassword)
+                .chooseGroupsTab()
+                .changeGroupInformation(testData.getGroupNumber(), testData.getChangedGroupNumber(),
                         testData.getChangedGroupEnteringYear(), testData.getChangedGroupGraduationYear())
                 .checkFailedMessage(testData.getErrorMessage());
     }
 
     @Test()
     public void removeGroupWithStudents(TestData testData) {
-        loginPage.loginUsingCredentials(ADMIN_LOGIN, ADMIN_PASSWORD).chooseGroupsTab()
-                .removeGroupByNumber(testData.getGroupNumber()).checkFailureNotification(testData.getErrorMessage());
+        loginPage.loginUsingCredentials(adminLogin, adminPassword)
+                .chooseGroupsTab()
+                .removeGroupByNumber(testData.getGroupNumber())
+                .checkFailureNotification(testData.getErrorMessage());
     }
-
 }

@@ -2,13 +2,18 @@ package by.bntu.lms.pages.professor;
 
 import by.bntu.lms.pages.AbstractPage;
 import by.bntu.lms.pages.admin.AdminProfessorsPage;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Data
 @Log4j2
+@EqualsAndHashCode(callSuper = false)
 public class ProfessorMainPage extends AbstractPage {
+
     public ProfessorMainPage(WebDriver driver) {
         super(driver);
     }
@@ -28,10 +33,10 @@ public class ProfessorMainPage extends AbstractPage {
     @FindBy(xpath = "//a[contains(@href,'StudentManagement')]")
     private WebElement studentsManagementMenu;
 
-    public AdminProfessorsPage checkThatLoginIsSuccessful() {
+    public void checkThatLoginIsSuccessful() {
         wait.waitForPageToLoad();
         wait.waitForElementIsVisible(userIcon);
-        return new AdminProfessorsPage(driver);
+        new AdminProfessorsPage(driver);
     }
 
     public SubjectManagementPage moveToSubjectManagementPage() {

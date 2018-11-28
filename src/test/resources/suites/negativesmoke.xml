@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Negative Smoke suite - Admin part" verbose="1" configfailurepolicy="continue">
+
+    <groups>
+        <run>
+            <include name="negativesmoke"/>
+            <exclude name="quarantine"/>
+        </run>
+    </groups>
+
+    <listeners>
+        <listener class-name="org.testng.reporters.XMLReporter"/>
+        <listener class-name="org.testng.reporters.DotTestListener"/>
+    </listeners>
+
+    <test name="negativesmoke">
+        <classes>
+            <class name="by.bntu.lms.suites.NegativeSmokeSuite"/>
+        </classes>
+    </test>
+
+</suite>
