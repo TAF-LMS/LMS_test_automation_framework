@@ -4,9 +4,5 @@
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="corp.automation.taf_main" target="1.8" />
-      <module name="corp.automation.taf_test" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
