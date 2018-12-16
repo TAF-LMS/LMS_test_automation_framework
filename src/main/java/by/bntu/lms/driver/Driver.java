@@ -28,7 +28,8 @@ public class Driver {
                 break;
             }
             case "REMOTE_CHROME": {
-                String hub = ProjectProperties.getInstance().getProperty("hub");
+                String hub = System.getProperty("hub") == null ?
+                        ProjectProperties.getInstance().getProperty("hub") : System.getProperty("hub");
                 DesiredCapabilities capabilities = new DesiredCapabilities();
                 capabilities.setJavascriptEnabled(true);
                 capabilities.setBrowserName("chrome");
@@ -41,7 +42,7 @@ public class Driver {
             default:
                 throw new Exception("Unknown web driver specified: " + name);
         }
-        webDriver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+        webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         return webDriver;
     }
 }

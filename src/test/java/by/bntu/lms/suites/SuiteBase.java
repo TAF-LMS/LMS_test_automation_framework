@@ -43,10 +43,14 @@ public class SuiteBase {
 
     SuiteBase() throws IOException {
         Properties properties = ProjectProperties.getInstance();
-        this.adminLogin = properties.getProperty("adminLogin");
-        this.adminPassword = properties.getProperty("adminPassword");
-        this.startURL = properties.getProperty("initialURL");
-        this.browserType = properties.getProperty("browserType");
+        this.adminLogin = System.getProperty("adminLogin") == null ?
+                properties.getProperty("adminLogin") : System.getProperty("adminLogin");
+        this.adminPassword = System.getProperty("adminPassword") == null ?
+                properties.getProperty("adminPassword") : System.getProperty("adminPassword");
+        this.startURL = System.getProperty("initialURL") == null ?
+                properties.getProperty("initialURL") : System.getProperty("initialURL");
+        this.browserType = System.getProperty("browserType") == null ?
+                properties.getProperty("browserType") : System.getProperty("browserType");
         this.extentConfig = properties.getProperty("extentConfig");
         this.reportLocation = properties.getProperty("reportLocation");
         this.workDir = properties.getProperty("workDir");
@@ -89,7 +93,8 @@ public class SuiteBase {
     public void tearDown(Method method, ITestResult result) throws Exception {
         String screenShootPath = abstractPage.takeScreenshot(counter++ + "_" + method.getName(), workDir);
         if (result.getStatus() == ITestResult.FAILURE) {
-            test.fail(result.getThrowable().getMessage(), MediaEntityBuilder.createScreenCaptureFromPath(screenShootPath).build());
+            test.fail(result.getThrowable().getMessage(),
+                    MediaEntityBuilder.createScreenCaptureFromPath(screenShootPath).build());
         } else {
             test.fail("passed", MediaEntityBuilder.createScreenCaptureFromPath(screenShootPath).build());
         }

@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    runtime files('src/main/resources', 'src/test/resources')
+    runtime files('src/main/resources', 'src/test/resources','configurations')
     testCompile group: 'org.testng', name: 'testng', version: '6.11'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.6.0'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: '3.6.0'
@@ -20,7 +20,6 @@ dependencies {
     compile group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.0'
     compile group: 'com.aventstack', name: 'extentreports', version: '4.0.1'
-
 }
 
 task smoke(type: Test) {
