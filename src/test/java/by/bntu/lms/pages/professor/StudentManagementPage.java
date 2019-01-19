@@ -26,7 +26,7 @@ public class StudentManagementPage extends AbstractPage {
 
     private WebElement acceptStudentElement(String studentName) {
         return driver.findElement(By.xpath("//tr[@ng-repeat='data in students']/td[contains(text()," +
-                "'" + studentName + "')]/../td[3]/div/a[@ng-click='unConfirmationStudent(data.StudentId)']"));
+                "'" + studentName + "')]/../td[3]/div/a[@ng-click='confirmationStudent(data.StudentId)']"));
     }
 
     private WebElement unassignStudentElement(String studentName) {
