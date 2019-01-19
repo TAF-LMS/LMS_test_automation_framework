@@ -50,7 +50,7 @@ public class SuiteBase {
 
     @BeforeSuite(alwaysRun = true)
     public void beforeSuite() throws Exception {
-        FileUtils.cleanDirectory(new File(workDir));
+        FileUtils.forceMkdir(new File(workDir));
         //Report Directory and Report Name
         extent = new ExtentReports();
         ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(reportLocation);
