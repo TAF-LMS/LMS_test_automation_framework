@@ -4,7 +4,6 @@ import by.bntu.lms.pages.AbstractPage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
@@ -15,11 +14,6 @@ import java.util.Arrays;
 @Log4j2
 @EqualsAndHashCode(callSuper = false)
 public class RegistrationPage extends AbstractPage {
-
-    public RegistrationPage(WebDriver driver) {
-        super(driver);
-    }
-
     @FindBy(id = "UserName")
     private WebElement loginField;
 
@@ -48,6 +42,9 @@ public class RegistrationPage extends AbstractPage {
     private WebElement listGroups;
 
     private WebElement failedMessage;
+
+    public RegistrationPage() {
+    }
 
     public void checkFailedMessage(String expectedErrorMessage) {
         Arrays.asList(expectedErrorMessage.split(";")).forEach(

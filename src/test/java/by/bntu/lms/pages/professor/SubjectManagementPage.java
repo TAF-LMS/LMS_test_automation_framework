@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -13,11 +12,6 @@ import org.openqa.selenium.support.FindBy;
 @Log4j2
 @EqualsAndHashCode(callSuper = false)
 public class SubjectManagementPage extends AbstractPage {
-
-    SubjectManagementPage(WebDriver driver) {
-        super(driver);
-    }
-
     @FindBy(xpath = "//a[contains(@href,'Subject/Create')]")
     private WebElement addSubjectButton;
 
@@ -35,6 +29,9 @@ public class SubjectManagementPage extends AbstractPage {
 
     @FindBy(id = "saveButton")
     private WebElement saveButton;
+
+    public SubjectManagementPage() {
+    }
 
     private WebElement initGroupCheckBox(String groupNumber) {
         return driver.findElement(By.xpath("//label[contains(text(),'" + groupNumber + "')]" +

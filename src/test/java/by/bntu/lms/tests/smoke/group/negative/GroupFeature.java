@@ -32,7 +32,7 @@ public class GroupFeature {
     }
 
     @Test()
-    public void removeGroupWithStudents(TestData testData) {
+    public void removeGroupWithStudents(TestData testData){
         loginPage.loginUsingCredentials(adminLogin, adminPassword)
                 .chooseGroupsTab()
                 .removeGroupByNumber(testData.getGroupNumber())

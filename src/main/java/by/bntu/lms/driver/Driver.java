@@ -7,24 +7,33 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 public class Driver {
-    private static WebDriver webDriver;
+    private static ThreadLocal<WebDriver> webDriver;
 
-    private void Driver() {
-        throw new AssertionError("No instances of this class should exist");
+    private static WebDriver getWebDriver() {
+        return webDriver == null ? null : webDriver.get();
     }
 
-    public static WebDriver getWebDriverInstance(String name) throws Exception {
-        //if (webDriver != null) return webDriver;
+    public static void setWebDriver(WebDriver webDriver) {
+        Driver.webDriver = new ThreadLocal<>();
+        Driver.webDriver.set(webDriver);
+    }
 
-        switch (name.toUpperCase()) {
+    public static WebDriver getWebDriverInstance() {
+        if (getWebDriver() != null) return getWebDriver();
+
+        String browserType = System.getProperty("browserType") == null ?
+                ProjectProperties.getInstance().getProperty("browserType") : System.getProperty("browserType");
+
+        switch (browserType.toUpperCase()) {
             case "CHROME": {
                 System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
-                webDriver = new ChromeDriver();
+                webDriver.set(new ChromeDriver());
                 break;
             }
             case "REMOTE_CHROME": {
@@ -34,15 +43,21 @@ public class Driver {
                 capabilities.setJavascriptEnabled(true);
                 capabilities.setBrowserName("chrome");
                 capabilities.setPlatform(Platform.WINDOWS);
-                RemoteWebDriver rwd = new RemoteWebDriver(new URL(hub), capabilities);
+                RemoteWebDriver rwd;
+                try {
+                    rwd = new RemoteWebDriver(new URL(hub), capabilities);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    throw new IllegalArgumentException("Incorrect URL provided!");
+                }
                 rwd.setLogLevel(Level.OFF);
-                webDriver = rwd;
+                webDriver.set(rwd);
                 break;
             }
             default:
-                throw new Exception("Unknown web driver specified: " + name);
+                throw new IllegalArgumentException("Unknown web driver specified: " + browserType);
         }
-        webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        return webDriver;
+        getWebDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        return getWebDriver();
     }
 }

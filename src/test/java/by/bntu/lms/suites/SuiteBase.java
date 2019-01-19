@@ -1,7 +1,6 @@
 package by.bntu.lms.suites;
 
 import by.bntu.lms.driver.Driver;
-import by.bntu.lms.pages.AbstractPage;
 import by.bntu.lms.pages.common.LoginPage;
 import by.bntu.lms.properties.ProjectProperties;
 import com.aventstack.extentreports.ExtentReports;
@@ -11,29 +10,24 @@ import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Properties;
 
 @Log4j2
 public class SuiteBase {
-    public static WebDriver driver;
-
-    protected AbstractPage abstractPage;
-    protected LoginPage loginPage;
-
-    protected String adminLogin;
-    protected String adminPassword;
-    protected String startURL;
-    protected String browserType;
-    protected String extentConfig;
-    protected String reportLocation;
-    protected String workDir;
+    private String startURL;
+    private String extentConfig;
+    private String reportLocation;
+    private String workDir;
+    LoginPage loginPage;
+    String adminLogin;
+    String adminPassword;
 
     private int counter = 0;
 
@@ -41,7 +35,7 @@ public class SuiteBase {
     private static ExtentReports extent;
     private static ExtentTest test;
 
-    SuiteBase() throws IOException {
+    SuiteBase() {
         Properties properties = ProjectProperties.getInstance();
         this.adminLogin = System.getProperty("adminLogin") == null ?
                 properties.getProperty("adminLogin") : System.getProperty("adminLogin");
@@ -49,8 +43,6 @@ public class SuiteBase {
                 properties.getProperty("adminPassword") : System.getProperty("adminPassword");
         this.startURL = System.getProperty("initialURL") == null ?
                 properties.getProperty("initialURL") : System.getProperty("initialURL");
-        this.browserType = System.getProperty("browserType") == null ?
-                properties.getProperty("browserType") : System.getProperty("browserType");
         this.extentConfig = properties.getProperty("extentConfig");
         this.reportLocation = properties.getProperty("reportLocation");
         this.workDir = properties.getProperty("workDir");
@@ -69,35 +61,41 @@ public class SuiteBase {
 
     @AfterSuite(alwaysRun = true)
     public void afterSuite() {
-        driver.quit();
+        Driver.getWebDriverInstance().quit();
         extent.flush();// save results
     }
 
     @BeforeMethod(alwaysRun = true)
     public void callReports(Method method) {
         test = extent.createTest((this.getClass().getSimpleName() + " :: " + method.getName()), method.getName());
-        test.assignAuthor("LMS Test Bot"); //Test Script Author Name
+        test.assignAuthor("LMS Test Bot");
         test.assignCategory("Smoke  :: " + "admin functionality" + " :: API VERSION - " + "v1.1");
     }
 
     @BeforeMethod(alwaysRun = true)
-    public void init() throws Exception {
-        driver = Driver.getWebDriverInstance(browserType);
-        loginPage = new LoginPage(driver);
-        abstractPage = new AbstractPage(driver);
-        driver.get(startURL);
-        driver.manage().window().fullscreen();
+    public void init() {
+        Driver.setWebDriver(null);
+        loginPage = new LoginPage();
+        Driver.getWebDriverInstance().get(startURL);
+        Driver.getWebDriverInstance().manage().window().fullscreen();
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown(Method method, ITestResult result) throws Exception {
-        String screenShootPath = abstractPage.takeScreenshot(counter++ + "_" + method.getName(), workDir);
+        String screenShootPath = takeScreenshot(counter++ + "_" + method.getName(), workDir);
         if (result.getStatus() == ITestResult.FAILURE) {
             test.fail(result.getThrowable().getMessage(),
                     MediaEntityBuilder.createScreenCaptureFromPath(screenShootPath).build());
         } else {
             test.fail("passed", MediaEntityBuilder.createScreenCaptureFromPath(screenShootPath).build());
         }
-        driver.close();
+        Driver.getWebDriverInstance().close();
+    }
+
+    private String takeScreenshot(String screenName, String path) throws Exception {
+        File scrFile = ((TakesScreenshot) Driver.getWebDriverInstance()).getScreenshotAs(OutputType.FILE);
+        File file = new File(path + screenName + ".png");
+        FileUtils.copyFile(scrFile, file);
+        return file.getAbsolutePath();
     }
 }

@@ -4,7 +4,6 @@ import by.bntu.lms.pages.AbstractPage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
@@ -16,11 +15,6 @@ import java.util.Arrays;
 @Log4j2
 @EqualsAndHashCode(callSuper = false)
 public class AdminGroupsPage extends AbstractPage {
-
-    public AdminGroupsPage(WebDriver driver) {
-        super(driver);
-    }
-
     @FindBy(xpath = "//*[@data-bb-handler='confirm']")
     private WebElement confirmButton;
 
@@ -51,6 +45,9 @@ public class AdminGroupsPage extends AbstractPage {
     private WebElement removeEmptyGroupButton;
     private WebElement failedMessage;
 
+    public AdminGroupsPage() {
+    }
+
     public void checkSuccessfulNotification() {
         wait.waitForElementIsVisible(successfulNotification);
     }
@@ -59,7 +56,6 @@ public class AdminGroupsPage extends AbstractPage {
     public void checkFailureNotification(String errorMessage) {
         wait.waitForElementIsVisible(initWebElement("//article[contains(text(),'" + errorMessage + "')]"));
     }
-
 
     /**
      * The method is able to check several error messages separated by ';' symbol

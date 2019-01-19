@@ -4,7 +4,6 @@ import by.bntu.lms.pages.AbstractPage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
@@ -15,11 +14,6 @@ import java.util.Arrays;
 @Log4j2
 @EqualsAndHashCode(callSuper = false)
 public class AdminStudentsPage extends AbstractPage {
-
-    public AdminStudentsPage(WebDriver driver) {
-        super(driver);
-    }
-
     @FindBy(xpath = "//a[@class='statButton']")
     private WebElement statButton;
 
@@ -64,6 +58,9 @@ public class AdminStudentsPage extends AbstractPage {
 
     private WebElement deleteStudentButton;
     private WebElement failedMessage;
+
+    public AdminStudentsPage() {
+    }
 
     public void checkSuccessfulNotification() {
         wait.waitForElementIsVisible(successfulNotification);

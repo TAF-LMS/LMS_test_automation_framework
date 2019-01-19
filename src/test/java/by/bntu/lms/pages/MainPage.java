@@ -5,18 +5,12 @@ import by.bntu.lms.pages.admin.AdminProfessorsPage;
 import by.bntu.lms.pages.admin.AdminStudentsPage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class MainPage extends AbstractPage {
-
-    public MainPage(WebDriver driver) {
-        super(driver);
-    }
-
     @FindBy(xpath = "//a[contains(@href,'Professors')]")
     private WebElement professorsLink;
 
@@ -32,18 +26,21 @@ public class MainPage extends AbstractPage {
     @FindBy(xpath = "//a[contains(@href,'Message')]")
     private WebElement messageLink;
 
+    public MainPage() {
+    }
+
     public AdminProfessorsPage chooseProfessorsTab() {
         waitForElementIsClickableAndClick(professorsLink);
-        return new AdminProfessorsPage(driver);
+        return new AdminProfessorsPage();
     }
 
     public AdminGroupsPage chooseGroupsTab() {
         waitForElementIsClickableAndClick(groupsLink);
-        return new AdminGroupsPage(driver);
+        return new AdminGroupsPage();
     }
 
     public AdminStudentsPage chooseStudentsTab() {
         waitForElementIsClickableAndClick(studentsLink);
-        return new AdminStudentsPage(driver);
+        return new AdminStudentsPage();
     }
 }

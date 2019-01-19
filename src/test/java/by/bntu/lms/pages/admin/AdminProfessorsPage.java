@@ -1,11 +1,9 @@
 package by.bntu.lms.pages.admin;
 
-
 import by.bntu.lms.pages.AbstractPage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -16,11 +14,6 @@ import java.util.concurrent.TimeUnit;
 @Log4j2
 @EqualsAndHashCode(callSuper = false)
 public class AdminProfessorsPage extends AbstractPage {
-
-    public AdminProfessorsPage(WebDriver driver) {
-        super(driver);
-    }
-
     @FindBy(xpath = "//a[@class='statButton']")
     private WebElement statButton;
 
@@ -89,6 +82,9 @@ public class AdminProfessorsPage extends AbstractPage {
     private WebElement editProfessorsButton;
     private WebElement professorForSearch;
     private WebElement failedMessage;
+
+    public AdminProfessorsPage() {
+    }
 
     public void checkSuccessfulNotification() {
         wait.waitForElementIsVisible(successfulNotification);

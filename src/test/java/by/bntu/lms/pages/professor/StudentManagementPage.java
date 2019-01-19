@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
@@ -14,13 +13,11 @@ import org.openqa.selenium.support.ui.Select;
 @Log4j2
 @EqualsAndHashCode(callSuper = false)
 public class StudentManagementPage extends AbstractPage {
-
-    StudentManagementPage(WebDriver driver) {
-        super(driver);
-    }
-
     @FindBy(xpath = "//select[@ng-model='selectedGroup']")
     private WebElement groupSelector;
+
+    public StudentManagementPage() {
+    }
 
     private void checkSuccessfulConfirmation(String studentName) {
         driver.findElement(By.xpath("//tr[@ng-repeat='data in students']/td[contains(text()," +

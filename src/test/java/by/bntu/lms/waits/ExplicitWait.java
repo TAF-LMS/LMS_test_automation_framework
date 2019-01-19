@@ -1,5 +1,6 @@
 package by.bntu.lms.waits;
 
+import by.bntu.lms.driver.Driver;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -11,12 +12,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ExplicitWait {
-    private WebDriver driverWait;
     private Wait<WebDriver> wait;
 
-    public ExplicitWait(WebDriver driver) {
-        this.driverWait = driver;
-        wait = new WebDriverWait(this.driverWait, 1)
+    public ExplicitWait() {
+        WebDriver driverWait = Driver.getWebDriverInstance();
+        wait = new WebDriverWait(driverWait, 1)
                 .ignoring(StaleElementReferenceException.class, WebDriverException.class)
                 .withMessage("Element was not found by locator");
     }

@@ -23,12 +23,14 @@ dependencies {
 }
 
 task smoke(type: Test) {
+    systemProperties System.properties
     useTestNG() {
         suites 'src/test/resources/suites/smoke.xml'
     }
 }
 
 task negativesmoke(type: Test) {
+    systemProperties System.properties
     useTestNG() {
         suites 'src/test/resources/suites/negativesmoke.xml'
     }

@@ -4,22 +4,19 @@ import by.bntu.lms.pages.AbstractPage;
 import by.bntu.lms.pages.admin.AdminProfessorsPage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class StudentMainPage extends AbstractPage {
-
-    public StudentMainPage(WebDriver driver) {
-        super(driver);
-    }
-
     @FindBy(xpath = "//i[contains(@class,'user')]")
     private WebElement userIcon;
 
     private WebElement failedMessage;
+
+    public StudentMainPage() {
+    }
 
     public void checkThatLoginIsSuccessful() {
         wait.waitForPageToLoad();
@@ -31,6 +28,6 @@ public class StudentMainPage extends AbstractPage {
         driver.switchTo().activeElement();
         failedMessage = initWebElement("//div[contains(text(),'" + expectedErrorMessage + "')]");
         wait.waitForElementIsVisible(failedMessage);
-        new AdminProfessorsPage(driver);
+        new AdminProfessorsPage();
     }
 }
