@@ -61,7 +61,7 @@ public class SuiteBase {
 
     @AfterSuite(alwaysRun = true)
     public void afterSuite() {
-        Driver.getWebDriverInstance().quit();
+        //Driver.getWebDriverInstance().quit();
         extent.flush();// save results
     }
 
@@ -90,6 +90,7 @@ public class SuiteBase {
             test.fail("passed", MediaEntityBuilder.createScreenCaptureFromPath(screenShootPath).build());
         }
         Driver.getWebDriverInstance().close();
+        Driver.getWebDriverInstance().quit();
     }
 
     private String takeScreenshot(String screenName, String path) throws Exception {
