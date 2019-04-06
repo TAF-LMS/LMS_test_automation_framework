@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
 public class AbstractPage {
     protected WebDriver driver;
     protected ExplicitWait wait;
@@ -19,6 +21,10 @@ public class AbstractPage {
 
     protected WebElement initWebElement(String xpath) {
         return driver.findElement(new By.ByXPath(xpath));
+    }
+
+    protected List<WebElement> initWebElements(String xpath) {
+        return driver.findElements(new By.ByXPath(xpath));
     }
 
     protected void sendKeysIntoWebElement(WebElement webElement, String text) {

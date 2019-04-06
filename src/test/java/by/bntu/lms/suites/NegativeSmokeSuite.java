@@ -178,4 +178,62 @@ public class NegativeSmokeSuite extends SuiteBase {
     public void removeGroupWithStudentsTest(TestData testData) {
         new GroupFeature(loginPage, adminLogin, adminPassword).removeGroupWithStudents(testData);
     }
+
+    /*
+        Positive cases to clean up the data after tests
+     */
+    @DataProvider()
+    public Object[][] removeStudentsData() {
+        return dataReaderGeneric(STUDENT_DATA_PATH, "RemoveStudent (1 positive)");
+    }
+
+    @Test(priority = 15, dataProvider = "removeStudentsData")
+    public void removeStudentsTest(TestData testData) {
+        new by.bntu.lms.tests.smoke.student.positive
+                .StudentFeature(loginPage, adminLogin, adminPassword).removeStudentTest(testData);
+    }
+
+    @DataProvider()
+    public Object[][] removeGroupData() {
+        return dataReaderGeneric(GROUP_DATA_PATH, "RemoveGroup (1 positive)");
+    }
+
+    @Test(priority = 16, dataProvider = "removeGroupData")
+    public void removeGroupTest(TestData testData) {
+        new by.bntu.lms.tests.smoke.group.positive.
+                GroupFeature(loginPage, adminLogin, adminPassword).removeEmptyGroupTest(testData);
+    }
+
+    @DataProvider()
+    public Object[][] removeProfessorWithSubjectsData() {
+        return dataReaderGeneric(PROFESSOR_DATA_PATH, "RemoveProfessorWithSubjects");
+    }
+
+    //Negative
+    @Test(priority = 17, dataProvider = "removeProfessorWithSubjectsData")
+    public void removeProfessorWithSubjectsTest(TestData testData) {
+        new ProfessorFeature(loginPage, adminLogin, adminPassword).removeProfessorTest(testData);
+    }
+
+    @DataProvider()
+    public Object[][] removeAllSubjectsData() {
+        return dataReaderGeneric(PROFESSOR_DATA_PATH, "removeAllSubjects");
+    }
+
+    @Test(priority = 18, dataProvider = "removeAllSubjectsData")
+    public void removeAllSubjectsTest(TestData testData) {
+        new by.bntu.lms.tests.smoke.professor.positive.ProfessorFeature(loginPage, adminLogin, adminPassword)
+                .removeAllSubjectsTest(testData);
+    }
+
+    @DataProvider()
+    public Object[][] removeProfessorData() {
+        return dataReaderGeneric(PROFESSOR_DATA_PATH, "RemoveProfessor (1 positive)");
+    }
+
+    @Test(priority = 19, dataProvider = "removeProfessorData")
+    public void removeProfessorTest(TestData testData) {
+        new by.bntu.lms.tests.smoke.professor.positive.
+                ProfessorFeature(loginPage, adminLogin, adminPassword).removeProfessorTest(testData);
+    }
 }

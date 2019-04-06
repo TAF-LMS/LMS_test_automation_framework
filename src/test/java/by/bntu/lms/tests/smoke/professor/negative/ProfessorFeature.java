@@ -32,4 +32,13 @@ public class ProfessorFeature {
                         testData.getChangedProfessorSurname(), testData.getChangedProfessorPatronymic())
                 .checkFailedMessage(testData.getErrorMessage());
     }
+
+    @Test()
+    public void removeProfessorTest(TestData testData) {
+        loginPage
+                .loginUsingCredentials(adminLogin, adminPassword)
+                .chooseProfessorsTab()
+                .removeProfessor(testData.getProfessorLogin())
+                .checkFailureNotification(testData.getErrorMessage());
+    }
 }

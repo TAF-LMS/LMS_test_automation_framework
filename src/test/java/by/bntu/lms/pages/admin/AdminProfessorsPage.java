@@ -104,6 +104,10 @@ public class AdminProfessorsPage extends AbstractPage {
         );
     }
 
+    public void checkFailureNotification(String errorMessage) {
+        wait.waitForElementIsVisible(initWebElement("//article[contains(text(),'" + errorMessage + "')]"));
+    }
+
     //TODO: add submit password field
     public AdminProfessorsPage addProfessor(String userName, String password,
                                             String surname, String name,
@@ -123,7 +127,7 @@ public class AdminProfessorsPage extends AbstractPage {
         return AdminProfessorsPage.this;
     }
 
-    public void removeProfessor(String login) {
+    public AdminProfessorsPage removeProfessor(String login) {
         log.info("Removing professor");
         wait.waitForPageToLoad();
         deleteProfessorButton = initWebElement("//tr/td[text()='" +
@@ -131,7 +135,7 @@ public class AdminProfessorsPage extends AbstractPage {
         waitForElementIsClickableAndClick(deleteProfessorButton);
         waitForElementIsClickableAndClick(confirmButton);
         wait.waitForPageToLoad();
-        wait.waitForElementIsVisible(successfulNotification);
+        return this;
     }
 
     public AdminProfessorsPage changeProfessorInformation(String login, String changedName, String changedSurname,
@@ -158,6 +162,7 @@ public class AdminProfessorsPage extends AbstractPage {
         return AdminProfessorsPage.this;
     }
 
+    //TODO: not surname but login
     public void checkProfessorInSearchResults(String surname) {
         wait.waitForPageToLoad();
         professorForSearch = initWebElement("//td[contains(text(),'" + surname + "')]");

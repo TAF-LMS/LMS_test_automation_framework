@@ -8,6 +8,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 @Data
 @Log4j2
 @EqualsAndHashCode(callSuper = false)
@@ -30,7 +32,20 @@ public class SubjectManagementPage extends AbstractPage {
     @FindBy(id = "saveButton")
     private WebElement saveButton;
 
+    @FindBy(xpath = "//article[contains(@class,'success')]")
+    private WebElement successfulNotification;
+
+
+    @FindBy(xpath = "//button[@class='btn btn-primary btn-sm']")
+    private WebElement removeSubjectButton;
+
+    private String removedSubjectsXpath = "//a[@class='deleteSubjectButton']";
+
     public SubjectManagementPage() {
+    }
+
+    public void checkSuccessfulNotification() {
+        wait.waitForElementIsVisible(successfulNotification);
     }
 
     private WebElement initGroupCheckBox(String groupNumber) {
@@ -38,7 +53,7 @@ public class SubjectManagementPage extends AbstractPage {
                 "/input[@type='checkbox']"));
     }
 
-    public void addNewSubject(String subjectName, String subjectAbbreviation, String groupNumbers) {
+    public SubjectManagementPage addNewSubject(String subjectName, String subjectAbbreviation, String groupNumbers) {
         log.info("Adding new subject");
         waitForElementIsClickableAndClick(addSubjectButton);
         sendKeysIntoWebElement(subjectNameField, subjectName);
@@ -50,5 +65,21 @@ public class SubjectManagementPage extends AbstractPage {
             waitForElementIsClickableAndClick(initGroupCheckBox(groupNumber));
         }
         waitForElementIsClickableAndClick(saveButton);
+        return this;
+    }
+
+    public void deleteAllSubjects() {
+        log.info("Removing all subjects");
+        List<WebElement> removedSubjects;
+        int removedSubjectsSize = initWebElements(removedSubjectsXpath).size();
+        log.info("Subjects quantity: " + removedSubjectsSize);
+        for (int i = 0; i < removedSubjectsSize; i++) {
+            driver.navigate().refresh();
+            wait.waitForPageToLoad();
+            removedSubjects = initWebElements(removedSubjectsXpath);
+            waitForElementIsClickableAndClick(removedSubjects.get(0));
+            waitForElementIsClickableAndClick(removeSubjectButton);
+            checkSuccessfulNotification();
+        }
     }
 }

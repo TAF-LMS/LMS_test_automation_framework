@@ -35,7 +35,16 @@ public class ProfessorFeature {
         loginPage
                 .loginAsProfessor(testData.getProfessorLogin(), testData.getProfessorPassword())
                 .moveToSubjectManagementPage()
-                .addNewSubject(testData.getSubjectName(), testData.getSubjectAbbreviation(), testData.getSubjectGroups());
+                .addNewSubject(testData.getSubjectName(), testData.getSubjectAbbreviation(), testData.getSubjectGroups())
+                .checkSuccessfulNotification();
+    }
+
+    @Test
+    public void removeAllSubjectsTest(TestData testData) {
+        loginPage
+                .loginAsProfessor(testData.getProfessorLogin(), testData.getProfessorPassword())
+                .moveToSubjectManagementPage()
+                .deleteAllSubjects();
     }
 
     @Test
@@ -59,7 +68,8 @@ public class ProfessorFeature {
     @Test()
     public void searchProfessorTest(TestData testData) throws InterruptedException {
         loginPage
-                .loginUsingCredentials(adminLogin, adminPassword).chooseProfessorsTab()
+                .loginUsingCredentials(adminLogin, adminPassword)
+                .chooseProfessorsTab()
                 .searchProfessor(testData.getProfessorSurname())
                 .checkProfessorInSearchResults(testData.getProfessorSurname());
     }
@@ -67,7 +77,9 @@ public class ProfessorFeature {
     @Test()
     public void removeProfessorTest(TestData testData) {
         loginPage
-                .loginUsingCredentials(adminLogin, adminPassword).chooseProfessorsTab().
-                removeProfessor(testData.getProfessorLogin());
+                .loginUsingCredentials(adminLogin, adminPassword)
+                .chooseProfessorsTab()
+                .removeProfessor(testData.getProfessorLogin())
+                .checkSuccessfulNotification();
     }
 }

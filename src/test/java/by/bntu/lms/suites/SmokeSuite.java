@@ -79,6 +79,11 @@ public class SmokeSuite extends SuiteBase {
     }
 
     @DataProvider()
+    public Object[][] removeAllSubjectsData() {
+        return dataReaderGeneric(PROFESSOR_DATA_PATH, "RemoveAllSubjects");
+    }
+
+    @DataProvider()
     public Object[][] removeProfessorData() {
         return dataReaderGeneric(PROFESSOR_DATA_PATH, "DeleteProfessor");
     }
@@ -120,7 +125,7 @@ public class SmokeSuite extends SuiteBase {
         new StudentFeature(loginPage, adminLogin, adminPassword).changeStudentPassword(testData);
     }
 
-    @Test(priority = 14, dataProvider = "removeStudentData")
+    @Test(priority = 15, dataProvider = "removeStudentData")
     public void removeStudentTest(TestData testData) {
         new StudentFeature(loginPage, adminLogin, adminPassword).removeStudentTest(testData);
     }
@@ -130,7 +135,6 @@ public class SmokeSuite extends SuiteBase {
     public void addProfessorTest(TestData testData) {
         new ProfessorFeature(loginPage, adminLogin, adminPassword).addProfessorTest(testData);
     }
-
 
     @Test(priority = 8, dataProvider = "changeProfessorData")
     public void changeProfessorTest(TestData testData) {
@@ -164,7 +168,12 @@ public class SmokeSuite extends SuiteBase {
         new ProfessorFeature(loginPage, adminLogin, adminPassword).searchProfessorTest(testData);
     }
 
-    @Test(priority = 13, dataProvider = "removeProfessorData")
+    @Test(priority = 13, dataProvider = "removeAllSubjectsData")
+    public void removeAllSubjectsTest(TestData testData) {
+        new ProfessorFeature(loginPage, adminLogin, adminPassword).removeAllSubjectsTest(testData);
+    }
+
+    @Test(priority = 14, dataProvider = "removeProfessorData")
     public void removeProfessorTest(TestData testData) {
         new ProfessorFeature(loginPage, adminLogin, adminPassword).removeProfessorTest(testData);
     }
@@ -181,7 +190,7 @@ public class SmokeSuite extends SuiteBase {
     }
 
     //create
-    @Test(priority = 15, dataProvider = "removeEmptyGroupData")
+    @Test(priority = 16, dataProvider = "removeEmptyGroupData")
     public void removeGroupTest(TestData testData) {
         new GroupFeature(loginPage, adminLogin, adminPassword).removeEmptyGroupTest(testData);
     }

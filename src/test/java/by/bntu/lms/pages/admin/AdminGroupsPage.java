@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Data
 @Log4j2
@@ -113,8 +114,8 @@ public class AdminGroupsPage extends AbstractPage {
 
     public void checkGroupWasRemoved(String groupNumb) {
         wait.waitForElementIsVisible(successfulNotification);
-        removeEmptyGroupButton = initWebElement("//tr/td[text()='" + groupNumb
+        List<WebElement> groups = initWebElements("//tr/td[text()='" + groupNumb
                 + "']/../td[@class='']/div/a[contains(@href,'DeleteGroup')]");
-        Assert.assertNull(removeEmptyGroupButton, "Group has not been removed");
+        Assert.assertTrue(groups.isEmpty(), "Group has not been removed");
     }
 }
