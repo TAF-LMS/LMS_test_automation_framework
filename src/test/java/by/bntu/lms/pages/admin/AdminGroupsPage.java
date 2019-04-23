@@ -1,5 +1,6 @@
 package by.bntu.lms.pages.admin;
 
+import by.bntu.lms.driver.Driver;
 import by.bntu.lms.pages.AbstractPage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,6 +12,7 @@ import org.testng.Assert;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Data
 @Log4j2
@@ -112,10 +114,16 @@ public class AdminGroupsPage extends AbstractPage {
         return AdminGroupsPage.this;
     }
 
+    /*
+     * Set implicityWait to 1 and then return it back
+     * to check that elements are absent without spending lots of time
+     */
     public void checkGroupWasRemoved(String groupNumb) {
         wait.waitForElementIsVisible(successfulNotification);
+        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
         List<WebElement> groups = initWebElements("//tr/td[text()='" + groupNumb
                 + "']/../td[@class='']/div/a[contains(@href,'DeleteGroup')]");
+        driver.manage().timeouts().implicitlyWait(Driver.IMPLICITY_WAIT_TIME, TimeUnit.SECONDS);
         Assert.assertTrue(groups.isEmpty(), "Group has not been removed");
     }
 }

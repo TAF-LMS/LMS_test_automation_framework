@@ -141,18 +141,24 @@ public class SmokeSuite extends SuiteBase {
         new ProfessorFeature(loginPage, adminLogin, adminPassword).changeProfessorTest(testData);
     }
 
-    /*//TODO: Clarify whether it is needed
-    @Test(priority = 9, dataProvider = "loginProfessorData")
+    /*
+     * There is no need to check that professor is created,
+     * 'cause their change requires login and is checked later on
+     */
+    @Test(priority = 9, dataProvider = "loginProfessorData", enabled = false)
     public void checkProfessorLogInTest(TestData testData) {
-        new ProfessorFeature(loginPage).loginAsProfessorTest(testData);
-    }*/
+        new ProfessorFeature(loginPage, adminLogin, adminPassword).loginAsProfessorTest(testData);
+    }
 
     @Test(priority = 10, dataProvider = "createNewSubjectData")
     public void createNewSubjectTest(TestData testData) {
         new ProfessorFeature(loginPage, adminLogin, adminPassword).createNewSubjectTest(testData);
     }
 
-    @Test(priority = 11, dataProvider = "applyNewStudentData")
+    /*
+     * Changed students do not require to be applied, set to disabled
+     */
+    @Test(priority = 11, dataProvider = "applyNewStudentData", enabled = false)
     public void applyNewStudentTest(TestData testData) {
         new ProfessorFeature(loginPage, adminLogin, adminPassword).applyStudentTest(testData);
     }

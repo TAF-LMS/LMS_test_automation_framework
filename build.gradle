@@ -1,6 +1,25 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "io.qameta.allure:allure-gradle:2.3"
+    }
+}
+
+plugins {
+    id 'io.qameta.allure' version "2.3"
+}
+
+allure {
+    version = '2.2.1'
+    autoconfigure = true
+    aspectjweaver = true
+    allureJavaVersion = '2.0-BETA10'
+}
+
 group 'corp.automation'
 version '1.0-SNAPSHOT'
-
 apply plugin: 'java'
 apply plugin: 'maven'
 
@@ -11,7 +30,7 @@ repositories {
 }
 
 dependencies {
-    runtime files('src/main/resources', 'src/test/resources','configurations')
+    runtime files('src/main/resources', 'src/test/resources', 'configurations')
     testCompile group: 'org.testng', name: 'testng', version: '6.11'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.6.0'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: '3.6.0'
@@ -19,18 +38,15 @@ dependencies {
     compile group: 'org.apache.poi', name: 'poi', version: '3.17'
     compile group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.0'
-    compile group: 'com.aventstack', name: 'extentreports', version: '4.0.1'
-}
+    compile group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '7.2.1.jre8' }
 
 task smoke(type: Test) {
-    systemProperties System.properties
     useTestNG() {
         suites 'src/test/resources/suites/smoke.xml'
     }
 }
 
 task negativesmoke(type: Test) {
-    systemProperties System.properties
     useTestNG() {
         suites 'src/test/resources/suites/negativesmoke.xml'
     }

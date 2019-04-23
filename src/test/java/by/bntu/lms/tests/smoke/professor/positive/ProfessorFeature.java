@@ -70,8 +70,8 @@ public class ProfessorFeature {
         loginPage
                 .loginUsingCredentials(adminLogin, adminPassword)
                 .chooseProfessorsTab()
-                .searchProfessor(testData.getProfessorSurname())
-                .checkProfessorInSearchResults(testData.getProfessorSurname());
+                .searchProfessor(testData.getProfessorSearchKeyword())
+                .checkProfessorInSearchResults(testData.getProfessorSearchKeyword());
     }
 
     @Test()

@@ -27,6 +27,7 @@ public class TestData {
     private String professorName;
     private String professorSurname;
     private String professorPatronymic;
+    private String professorSearchKeyword;
     private String changedProfessorName;
     private String changedProfessorSurname;
     private String changedProfessorPatronymic;

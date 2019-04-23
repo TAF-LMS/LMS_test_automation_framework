@@ -14,6 +14,7 @@ import java.util.logging.Level;
 
 public class Driver {
     private static ThreadLocal<WebDriver> webDriver;
+    public static final int IMPLICITY_WAIT_TIME = 10;
 
     private static WebDriver getWebDriver() {
         return webDriver == null ? null : webDriver.get();
@@ -57,7 +58,7 @@ public class Driver {
             default:
                 throw new IllegalArgumentException("Unknown web driver specified: " + browserType);
         }
-        getWebDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        getWebDriver().manage().timeouts().implicitlyWait(IMPLICITY_WAIT_TIME, TimeUnit.SECONDS);
         return getWebDriver();
     }
 }

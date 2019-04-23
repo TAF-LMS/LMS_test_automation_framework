@@ -152,20 +152,19 @@ public class AdminProfessorsPage extends AbstractPage {
         return AdminProfessorsPage.this;
     }
 
-    //TODO:Check this method Wait 3 seconds for professor
-    public AdminProfessorsPage searchProfessor(String surname) throws InterruptedException {
+    //TODO:Check this method. Wait 3 seconds for professor
+    public AdminProfessorsPage searchProfessor(String searchKeyword) throws InterruptedException {
         log.info("Search for a professor");
         wait.waitForPageToLoad();
-        sendKeysIntoWebElement(searchField, surname);
+        sendKeysIntoWebElement(searchField, searchKeyword);
         TimeUnit.SECONDS.sleep(3);
-        //wait.waitForElementIsVisible(driver.findElement(By.xpath("//td[contains(text(),'" + surname + "')]")));
         return AdminProfessorsPage.this;
     }
 
     //TODO: not surname but login
-    public void checkProfessorInSearchResults(String surname) {
+    public void checkProfessorInSearchResults(String searchKeyword) {
         wait.waitForPageToLoad();
-        professorForSearch = initWebElement("//td[contains(text(),'" + surname + "')]");
+        professorForSearch = initWebElement("//td[contains(text(),'" + searchKeyword + "')]");
         wait.waitForElementIsVisible(professorForSearch);
     }
 }

@@ -138,6 +138,10 @@ public class NegativeSmokeSuite extends SuiteBase {
                 .createNewSubjectTest(testData);
     }
 
+
+    /*
+     * Student has to be applied only if it's not changed
+     */
     @DataProvider()
     public Object[][] applyNewStudentPositiveData() {
         return dataReaderGeneric(PROFESSOR_DATA_PATH, "ApplyStudent (1 positive)");
