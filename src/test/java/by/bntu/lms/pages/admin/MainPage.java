@@ -1,8 +1,6 @@
-package by.bntu.lms.pages;
+package by.bntu.lms.pages.admin;
 
-import by.bntu.lms.pages.admin.AdminGroupsPage;
-import by.bntu.lms.pages.admin.AdminProfessorsPage;
-import by.bntu.lms.pages.admin.AdminStudentsPage;
+import by.bntu.lms.pages.AbstractPage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.openqa.selenium.WebElement;

@@ -1,7 +1,7 @@
 package by.bntu.lms.pages.common;
 
 import by.bntu.lms.pages.AbstractPage;
-import by.bntu.lms.pages.MainPage;
+import by.bntu.lms.pages.admin.MainPage;
 import by.bntu.lms.pages.professor.ProfessorMainPage;
 import by.bntu.lms.pages.student.RegistrationPage;
 import by.bntu.lms.pages.student.StudentMainPage;

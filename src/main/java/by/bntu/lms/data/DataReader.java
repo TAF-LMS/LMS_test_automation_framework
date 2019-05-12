@@ -148,7 +148,7 @@ public class DataReader {
             HSSFCell suiteCell;
             HSSFCell keyCell;
             HSSFRow firstRow = suiteSheet.getRow(0);
-            ArrayList resultList = new ArrayList();
+            List resultList = new ArrayList();
 
             for (int k = 1; k < rowSuiteAmount; ++k) {
                 suiteRow = suiteSheet.getRow(k);
