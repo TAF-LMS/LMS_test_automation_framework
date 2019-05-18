@@ -77,6 +77,9 @@ public class DataReader {
                     case "professorpatronymic":
                         testRow.setProfessorPatronymic(value);
                         break;
+                    case "professorsearchkeyword":
+                        testRow.setProfessorSearchKeyword(value);
+                        break;
                     case "changedprofessorname":
                         testRow.setChangedProfessorName(value);
                         break;
