@@ -45,12 +45,14 @@ dependencies {
 }
 
 task smoke(type: Test) {
+    systemProperty "file.encoding", "utf-8"
     useTestNG() {
         suites 'src/test/resources/suites/smoke.xml'
     }
 }
 
 task negativesmoke(type: Test) {
+    systemProperty "file.encoding", "utf-8"
     useTestNG() {
         suites 'src/test/resources/suites/negativesmoke.xml'
     }
