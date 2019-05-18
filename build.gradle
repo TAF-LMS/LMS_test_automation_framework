@@ -23,6 +23,10 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'maven'
 
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+javadoc.options.encoding = 'UTF-8'
+
 sourceCompatibility = 1.8
 
 repositories {
