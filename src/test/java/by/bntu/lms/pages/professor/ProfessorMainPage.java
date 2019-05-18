@@ -18,7 +18,7 @@ public class ProfessorMainPage extends AbstractPage {
     @FindBy(xpath = "//i[contains(@class,'user')]")
     private WebElement userIcon;
 
-    @FindBy(xpath = "//span[contains(text(),'Предметы')]")
+    @FindBy(xpath = "//ui[@class='sidebar-menu']/li[1]/a")
     private WebElement subjectsMenu;
 
     @FindBy(xpath = "//a[contains(@href,'Subject/Management')]")
