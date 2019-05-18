@@ -14,7 +14,7 @@ import java.util.logging.Level;
 
 public class Driver {
     private static ThreadLocal<WebDriver> webDriver;
-    public static final int IMPLICITY_WAIT_TIME = 10;
+    public static final int IMPLICITY_WAIT_TIME = 15;
 
     private static WebDriver getWebDriver() {
         return webDriver == null ? null : webDriver.get();

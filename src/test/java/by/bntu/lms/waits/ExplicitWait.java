@@ -16,7 +16,7 @@ public class ExplicitWait {
 
     public ExplicitWait() {
         WebDriver driverWait = Driver.getWebDriverInstance();
-        wait = new WebDriverWait(driverWait, 10)
+        wait = new WebDriverWait(driverWait, 15)
                 .ignoring(StaleElementReferenceException.class, WebDriverException.class)
                 .withMessage("Element was not found by locator");
     }

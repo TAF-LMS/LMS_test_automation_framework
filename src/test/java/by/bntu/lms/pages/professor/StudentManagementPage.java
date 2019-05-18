@@ -37,6 +37,7 @@ public class StudentManagementPage extends AbstractPage {
     public void applyStudent(String studentName, String studentGroupNumber) {
         log.info("Applying new student");
         wait.waitForPageToLoad();
+        wait.waitForElementIsVisible(groupSelector);
         Select groupSelect = new Select(groupSelector);
         String fullGroupNumber = studentGroupNumber;
         for (WebElement groupOption : groupSelect.getOptions()) {
