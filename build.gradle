@@ -45,14 +45,20 @@ dependencies {
 }
 
 task smoke(type: Test) {
-    systemProperty "file.encoding", "utf-8"
+    systemProperty "adminLogin", System.getProperty("adminLogin")
+    systemProperty "adminPassword", System.getProperty("adminPassword")
+    systemProperty "browserType", System.getProperty("browserType")
+    systemProperty "hub", System.getProperty("hub")
     useTestNG() {
         suites 'src/test/resources/suites/smoke.xml'
     }
 }
 
 task negativesmoke(type: Test) {
-    systemProperty "file.encoding", "utf-8"
+    systemProperty "adminLogin", System.getProperty("adminLogin")
+    systemProperty "adminPassword", System.getProperty("adminPassword")
+    systemProperty "browserType", System.getProperty("browserType")
+    systemProperty "hub", System.getProperty("hub")
     useTestNG() {
         suites 'src/test/resources/suites/negativesmoke.xml'
     }
